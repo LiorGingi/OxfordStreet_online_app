@@ -14,6 +14,8 @@ namespace OxfordStreet_online_app.Models
         public string Name { get; set; }
 
         [Required]
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-.●]?([0-9]{3})[-.●]?([0-9]{4})$", ErrorMessage = "The Phone Number field is not a valid phone number")]
         public string PhoneNumber { get; set; }
 
         [Required]

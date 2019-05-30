@@ -134,12 +134,17 @@
     <Compile Include="Migrations\201905232334364_init.Designer.cs">
       <DependentUpon>201905232334364_init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905301257040_model-changes.cs" />
+    <Compile Include="Migrations\201905301257040_model-changes.Designer.cs">
+      <DependentUpon>201905301257040_model-changes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Branch.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderProduct.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\Role.cs" />
     <Compile Include="Models\StoreDbContext.cs" />
     <Compile Include="Models\Supplier.cs" />
     <Compile Include="Models\User.cs" />
@@ -201,6 +206,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201905232334364_init.resx">
       <DependentUpon>201905232334364_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905301257040_model-changes.resx">
+      <DependentUpon>201905301257040_model-changes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

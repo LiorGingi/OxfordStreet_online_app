@@ -21,7 +21,10 @@ namespace OxfordStreet_online_app.Models
         public string LastName { get; set; }
 
         [Required]
-        public string Email { get; set; } //need to add email validation
+        [Display(Name = "Email")]
+        [DataType(DataType.EmailAddress)]
+        [EmailAddress]
+        public string Email { get; set; }
 
         [Required]
         public bool IsEmployee { get; set; }

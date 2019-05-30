@@ -21,7 +21,10 @@ namespace OxfordStreet_online_app.Models
         [Required]
         public int BranchId { get; set; }
 
-        public string Role { get; set; } //need to pre-define role types
+        [Required]
+        public Role Role { get; set; }
+
+        [Required]
         public bool IsManager { get; set; }
 
         //RELATIONS
