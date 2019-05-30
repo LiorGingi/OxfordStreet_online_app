@@ -24,7 +24,7 @@ namespace OxfordStreet_online_app.Models
         public int TotalCost { get; set; }
 
         [Required]
-        public string Status { get; set; }
+        public OrderStatus Status { get; set; }
 
         //RELATIONS
         public User User { get; set; }//foreign key

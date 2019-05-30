@@ -26,6 +26,10 @@ namespace OxfordStreet_online_app.Models
         [Required]
         public int SupplierId { get; set; }
 
+        [Required]
+        public string ImageUrl { get; set; }
+
+
         //RELATIONS
         public Supplier Supplier { get; set; }
         public virtual ICollection<OrderProduct> OrderProducts { get; set; }
