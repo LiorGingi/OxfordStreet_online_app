@@ -1,0 +1,55 @@
+﻿@model IEnumerable<OxfordStreet_online_app.Models.Product>
+
+@{
+    ViewBag.Title = "Category";
+}
+
+
+<div class="container">
+    @for (var i = 0; i < Model.Count(); i+=3)
+    {
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="category-product-container">
+                    <a href="/Products/Details/@Html.DisplayFor(modelItem => Model.ElementAt(i).ProductId)">
+                        <img class="category-product-img" src="@Html.DisplayFor(modelItem => Model.ElementAt(i).ImageUrl)" alt="@Html.DisplayFor(modelItem => Model.ElementAt(i).Name)" />
+                        <div class="category-product-details-container">
+                            <div class="category-product-name">@Html.DisplayFor(modelItem => Model.ElementAt(i).Name)</div>
+                            <div class="category-product-price">@Html.DisplayFor(modelItem => Model.ElementAt(i).Price) NIS</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            
+            @if (i + 1 < Model.Count())
+            {
+                <div class="col-sm-4">
+                    <div class="category-product-container">
+                        <a href="/Products/Details/@Html.DisplayFor(modelItem => Model.ElementAt(i+1).ProductId)">
+                            <img class="category-product-img" src="@Html.DisplayFor(modelItem => Model.ElementAt(i+1).ImageUrl)" alt="@Html.DisplayFor(modelItem => Model.ElementAt(i+1).Name)" />
+                            <div class="category-product-details-container">
+                                <div class="category-product-name">@Html.DisplayFor(modelItem => Model.ElementAt(i + 1).Name)</div>
+                                <div class="category-product-price">@Html.DisplayFor(modelItem => Model.ElementAt(i + 1).Price) NIS</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            }
+            
+            @if (i + 2 < Model.Count())
+            {
+                <div class="col-sm-4">
+                    <div class="category-product-container">
+                        <a href="/Products/Details/@Html.DisplayFor(modelItem => Model.ElementAt(i+2).ProductId)">
+                            <img class="category-product-img" src="@Html.DisplayFor(modelItem => Model.ElementAt(i+2).ImageUrl)" alt="@Html.DisplayFor(modelItem => Model.ElementAt(i+2).Name)" />
+                            <div class="category-product-details-container">
+                                <div class="category-product-name">@Html.DisplayFor(modelItem => Model.ElementAt(i+2).Name)</div>
+                                <div class="category-product-price">@Html.DisplayFor(modelItem => Model.ElementAt(i+2).Price) NIS</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

@@ -1,0 +1,25 @@
+﻿@model OxfordStreet_online_app.Models.Product
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="product-page-title">
+    <h2>@Html.DisplayFor(model => model.Name)</h2>
+</div>
+
+<div class="row">
+    <div class="col-md-9">
+        <div class="product-page-image">
+            <img src="@Html.DisplayFor(model => model.ImageUrl)" height="600" width="600" style="max-width: 600px; max-height: 600px;">
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="product-page-details-container">
+            <div>@Html.DisplayFor(model => model.Price) NIS</div>
+            <div>@Html.DisplayFor(model => model.WeatherType)</div>
+        </div>
+    </div>
+    
+    <!--ADD TO CART BTN-->
+</div>

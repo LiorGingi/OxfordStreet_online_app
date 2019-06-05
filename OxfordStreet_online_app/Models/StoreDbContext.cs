@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using OxfordStreet_online_app.Models;
+using OxfordStreet_online_app.ViewModels;
+
 
 namespace OxfordStreet_online_app.Models
 {

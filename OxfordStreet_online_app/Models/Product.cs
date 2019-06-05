@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
@@ -9,6 +10,8 @@ namespace OxfordStreet_online_app.Models
     public class Product
     {
         public int ProductId { get; set; }
+
+        public string Name { get; set; }
 
         [Range(0, int.MaxValue, ErrorMessage = "Price should be greater than or equal to 0.")]
         [Required]

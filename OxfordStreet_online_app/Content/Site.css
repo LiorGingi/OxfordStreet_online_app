@@ -22,3 +22,29 @@ select,
 textarea {
     max-width: 280px;
 }
+
+/*Product category pages*/
+
+.category-product-container {
+    display: inline-block;
+    font-family: 'Roboto bold', sans-serif;
+    margin-bottom: 40px;
+}
+
+.category-product-img {
+    max-width: 250px;
+    max-height: 250px; 
+}
+
+.category-product-name {
+
+}
+
+.category-product-price {
+
+}
+
+.category-product-details-container {
+    text-align: center;
+}
+

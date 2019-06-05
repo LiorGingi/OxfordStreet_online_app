@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
@@ -10,6 +11,7 @@ namespace OxfordStreet_online_app.Models
     {
         public int SupplierId { get; set; }
 
+        [DisplayName("Supplier Name")]
         [Required]
         public string Name { get; set; }
 

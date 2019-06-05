@@ -5,7 +5,6 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
-using System.Web.DynamicData;
 using System.Web.Mvc;
 using OxfordStreet_online_app.Models;
 
@@ -49,7 +48,7 @@ namespace OxfordStreet_online_app.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ProductId,Price,Category,SubCategory,WeatherType,SupplierId")] Product product)
+        public ActionResult Create([Bind(Include = "ProductId,Name,Price,Category,SubCategory,WeatherType,SupplierId,ImageUrl")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +82,7 @@ namespace OxfordStreet_online_app.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ProductId,Price,Category,SubCategory,WeatherType,SupplierId")] Product product)
+        public ActionResult Edit([Bind(Include = "ProductId,Name,Price,Category,SubCategory,WeatherType,SupplierId,ImageUrl")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -130,12 +129,11 @@ namespace OxfordStreet_online_app.Controllers
             base.Dispose(disposing);
         }
 
-        //Igor said:"gvuli" and after gingi asked agressively he said:"ok"
         public ActionResult Search(String category = null, int? maxPrice = null, int? minPrice = 0)
         {
-            var dataQuery = db.Products.Select(i => i).Where(product => product.Price >= minPrice
-                                                                        && (maxPrice == null ? true : product.Price <= maxPrice)
-                                                                        && (category == null ? true : product.Category == category));
+            var dataQuery = db.Products.Where(product => product.Price >= minPrice
+                                                         && (maxPrice == null ? true : product.Price <= maxPrice)
+                                                         && (category == null ? true : product.Category == category));
             return View(dataQuery.ToList());
         }
 
@@ -146,10 +144,17 @@ namespace OxfordStreet_online_app.Controllers
                 join op in db.OrderProducts on o.OrderId equals op.OrderId //inner join orderProducts op on o.id = op.id
                 join p in db.Products on op.ProductId equals p.ProductId
                 where (orderId == null ? true : o.OrderId == orderId)
-                select new{o, op, p});
-                    
+                select new { o, op, p });
+
             return View(result.ToList());
         }
 
+        // GET: Products/Category/Sunglasses
+        public ActionResult Category(string id = null)
+        {
+            return View((id == null
+                ? db.Products
+                : db.Products.Where(product => product.Category == id)).ToList());
+        }
     }
 }
