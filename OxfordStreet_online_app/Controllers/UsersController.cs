@@ -88,6 +88,7 @@ namespace OxfordStreet_online_app.Controllers
         {
             if (ModelState.IsValid)
             {
+                user.Password = Encrypt(user.Password);
                 db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -143,6 +144,57 @@ namespace OxfordStreet_online_app.Controllers
             byte[] data = Convert.FromBase64String(encryptedPass);
             byte[] decrypted = ProtectedData.Unprotect(data, null, DataProtectionScope.LocalMachine);
             return Encoding.Unicode.GetString(decrypted);
+        }
+
+        // GET: Users/Login
+        public ActionResult Login()
+        {
+            if (Session["userId"] != null) //if there's a user logged-in already
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+
+        //POST: Users/Login
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(string email, string password)
+        {
+            User user = db.Users.FirstOrDefault(u => u.Email == email);
+            if (user != null && Decrypt(user.Password) == password)
+            {
+                Session.Add("userId", user.UserId);
+                Session.Add("userName", user.FirstName +" "+ user.LastName);
+                Session.Add("isEmployee", user.IsEmployee);
+                if (user.IsEmployee)
+                {
+                    Employee employee = db.Employees.FirstOrDefault(e => e.UserId == user.UserId);
+                    Session.Add("employeeId", employee.EmployeeId);
+                    Session.Add("employeeRole", employee.Role);
+                }
+                return RedirectToAction("Index", "Home");
+            }
+            else //if the authentication failed
+            {
+                return RedirectToAction("Index");
+            }
+
+        }
+
+        public ActionResult Logout()
+        {
+            if (Session["userId"] != null)
+            {
+                Session.Remove("userId");
+                if ((bool)Session["isEmployee"])
+                {
+                    Session.Remove("employeeId");
+                    Session.Remove("employeeRole");
+                }
+                Session.Remove("isEmployee");
+            }
+            return RedirectToAction("Index", "Home");
         }
     }
 }

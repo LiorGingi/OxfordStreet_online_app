@@ -11,6 +11,7 @@
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
+
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
@@ -24,6 +25,17 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    
+                    @if (Session["userId"] == null)
+                    {
+                        <li class="top-user-section">@Html.ActionLink("Login", "Login", "Users")</li>
+                                                                                                //need to add signup
+                    }
+                    else
+                    {
+                        <li class="top-user-section" id="userName">Welcome, @Session["userName"]</li>
+                        <li class="top-user-section">@Html.ActionLink("Logout", "Logout", "Users")</li>
+                    }
                 </ul>
             </div>
         </div>
