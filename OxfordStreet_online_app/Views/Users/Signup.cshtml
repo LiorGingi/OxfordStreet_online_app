@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "Signup";
+}
+
+<h2>Signup</h2>
+
+@if (ViewBag.Error != null)
+{
+    <label>Error: @ViewBag.Error</label>
+}
+
+<form method="post" action="@Url.Action("Signup", "Users")">
+    @Html.AntiForgeryToken()
+    First Name:<br />
+    <input type="text" name="firstName" value="" /><br />
+    Last Name:<br />
+    <input type="text" name="lastName" value="" /><br />
+    Email:<br />
+    <input type="text" name="email" value="" /><br />
+    Password:<br />
+    <input type="password" name="password" value="" /><br />
+
+    Password Verification:<br />
+    <input type="password" name="passwordVerification" value="" /><br /><br />
+    <input type="submit" value="Submit" class="submit" />
+</form>

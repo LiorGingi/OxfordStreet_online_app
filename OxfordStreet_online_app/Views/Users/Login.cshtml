@@ -5,6 +5,11 @@
 
 <h2>Login</h2>
 
+@if (ViewBag.Error != null)
+{
+    <label>Error: @ViewBag.Error</label>
+}
+
 <form method="post" action="@Url.Action("Login", "Users")">
     @Html.AntiForgeryToken()
     Email:<br />

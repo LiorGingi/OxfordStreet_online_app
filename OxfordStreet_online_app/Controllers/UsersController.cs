@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Win32;
 using OxfordStreet_online_app.Models;
 
 namespace OxfordStreet_online_app.Controllers
@@ -162,7 +163,7 @@ namespace OxfordStreet_online_app.Controllers
         public ActionResult Login(string email, string password)
         {
             User user = db.Users.FirstOrDefault(u => u.Email == email);
-            if (user != null && Decrypt(user.Password) == password)
+            if (user != null && password != null && Decrypt(user.Password) == password)
             {
                 Session.Add("userId", user.UserId);
                 Session.Add("userName", user.FirstName +" "+ user.LastName);
@@ -177,7 +178,8 @@ namespace OxfordStreet_online_app.Controllers
             }
             else //if the authentication failed
             {
-                return RedirectToAction("Index");
+                ViewBag.Error = "Email or password are incorrect";
+                return View();
             }
 
         }
@@ -195,6 +197,63 @@ namespace OxfordStreet_online_app.Controllers
                 Session.Remove("isEmployee");
             }
             return RedirectToAction("Index", "Home");
+        }
+
+        //GET: Users/Signup
+        public ActionResult Signup()
+        {
+            return View();
+        }
+
+        //POST: Users/Signup
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Signup(string firstName, string lastName, string email, string password, string passwordVerification)
+        {
+            var error = false;
+            if (String.IsNullOrEmpty(firstName)
+                || String.IsNullOrEmpty(lastName)
+                || String.IsNullOrEmpty(email)
+                || String.IsNullOrEmpty(passwordVerification)
+                || String.IsNullOrEmpty(passwordVerification))
+            {
+                ViewBag.Error = "All fields are required";
+                return View();
+            }
+            else
+            {
+                User checkIfExist = db.Users.FirstOrDefault(user => user.Email == email);
+                if (checkIfExist == null)
+                {
+                    if (password == passwordVerification)
+                    {
+                        User newUser = new User
+                        {
+                            Email = email,
+                            FirstName = firstName,
+                            IsEmployee = false,
+                            LastName = lastName,
+                            Password = Encrypt(password)
+                        };
+                        db.Users.Add(newUser);
+                        db.SaveChanges();
+
+                        Login(email, password);
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        ViewBag.Error = "Password verification failed, please try again";
+                        return View();
+                    }
+
+                }
+                else
+                {
+                    ViewBag.Error = "Email already exists";
+                    return View();
+                }
+            }
         }
     }
 }

@@ -25,15 +25,16 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    
+
                     @if (Session["userId"] == null)
                     {
                         <li class="top-user-section">@Html.ActionLink("Login", "Login", "Users")</li>
-                                                                                                //need to add signup
+                        <li class="top-user-section">@Html.ActionLink("Signup", "Signup", "Users")</li>
                     }
                     else
                     {
                         <li class="top-user-section" id="userName">Welcome, @Session["userName"]</li>
+                        //Admin panel is employee, User panel is user
                         <li class="top-user-section">@Html.ActionLink("Logout", "Logout", "Users")</li>
                     }
                 </ul>
