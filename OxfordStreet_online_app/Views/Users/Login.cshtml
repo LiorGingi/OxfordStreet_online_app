@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+
+<form method="post" action="@Url.Action("Login", "Users")">
+    @Html.AntiForgeryToken()
+    Email:<br />
+    <input type="text" name="email" value="" /><br />
+    Password:<br />
+    <input type="password" name="password" value="" /><br /><br />
+    <input type="submit" value="Submit" class="submit" />
+</form>
