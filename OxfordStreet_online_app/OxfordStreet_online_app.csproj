@@ -129,6 +129,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BranchesController.cs" />
+    <Compile Include="Controllers\CartItemsController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderProductsController.cs" />
@@ -157,6 +158,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Branch.cs" />
+    <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderProduct.cs" />
@@ -243,6 +245,7 @@
     <Content Include="Views\Products\DetailsPage.cshtml" />
     <Content Include="Views\Products\Category.cshtml" />
     <Content Include="Views\Users\Login.cshtml" />
+    <Content Include="Views\CartItems\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
