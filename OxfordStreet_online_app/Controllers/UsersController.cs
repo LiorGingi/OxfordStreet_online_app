@@ -136,7 +136,7 @@ namespace OxfordStreet_online_app.Controllers
             base.Dispose(disposing);
         }
 
-        
+
         public string Encrypt(string password)
         {
             var data = Encoding.Unicode.GetBytes(password);
@@ -170,7 +170,7 @@ namespace OxfordStreet_online_app.Controllers
             if (user != null && password != null && Decrypt(user.Password) == password)
             {
                 Session.Add("userId", user.UserId);
-                Session.Add("userName", user.FirstName +" "+ user.LastName);
+                Session.Add("userName", user.FirstName + " " + user.LastName);
                 Session.Add("isEmployee", user.IsEmployee);
                 if (user.IsEmployee)
                 {
