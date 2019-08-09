@@ -24,6 +24,7 @@ namespace OxfordStreet_online_app.Models
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<OrderProduct> OrderProducts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
 
     }
 }
