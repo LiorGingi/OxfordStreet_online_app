@@ -4,51 +4,55 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Roboto:700&display=swap" rel="stylesheet">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>@ViewBag.Title Nofar's accessories</title>
+    @Styles.Render("~/Content/Style.css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
+    <nav>
+        <ul class="nav navbar-nav">
 
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-
-                    @if (Session["userId"] == null)
-                    {
-                        <li class="top-user-section">@Html.ActionLink("Login", "Login", "Users")</li>
-                        <li class="top-user-section">@Html.ActionLink("Signup", "Signup", "Users")</li>
-                    }
-                    else
-                    {
-                        <li class="top-user-section" id="userName">Welcome, @Session["userName"]</li>
-                        //Admin panel is employee, User panel is user
-                        <li class="top-user-section">@Html.ActionLink("Logout", "Logout", "Users")</li>
-                    }
-                </ul>
-            </div>
-        </div>
-    </div>
+            <li class="top-user-section">@Html.ActionLink("Nofar's", "Index", "Home")</li>
+            <li class="top-user-section">@Html.ActionLink("Products", "Index", "Products")</li>
+            @if (Session["userId"] == null)
+            {
+                <li class="top-user-section">@Html.ActionLink("Login", "Login", "Users")</li>
+                <li class="top-user-section">@Html.ActionLink("Signup", "Signup", "Users")</li>
+            }
+            else
+            {
+                <li class="top-user-section" id="userName">Welcome, @Session["userName"]</li>
+                //Admin panel is employee, User panel is user
+                <li class="top-user-section">@Html.ActionLink("Logout", "Logout", "Users")</li>
+            }
+        </ul>
+    </nav>
+    
     <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
 
+        @RenderBody()
+    </div>
+    <hr />
+    <footer>
+        <!-- Footer -->
+        <div>
+            <section id="about">
+                <h2>About</h2>
+
+                @Html.ActionLink("About us", "About", "Home")<br/>
+                @Html.ActionLink("Branches", "Index", "Branches")
+            </section>
+            <section id="help&information">
+                <h2>Help & Information</h2>
+                @Html.ActionLink("Contact us", "Contact", "Home")
+            </section>
+            <section id="social links">
+                <h2>Find us on</h2>
+                <a href="#" class="fa fa-facebook"></a>
+            </section>
+        </div>
+    </footer>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
