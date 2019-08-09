@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
-using System.Web;
 using System.Web.Mvc;
-using Microsoft.Win32;
 using OxfordStreet_online_app.Models;
 
 namespace OxfordStreet_online_app.Controllers
@@ -20,7 +16,14 @@ namespace OxfordStreet_online_app.Controllers
         // GET: Users
         public ActionResult Index()
         {
-            return View(db.Users.ToList());
+            if (Session["userId"] != null)
+            {
+                return View(db.Users.ToList());
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         // GET: Users/Details/5
@@ -73,6 +76,7 @@ namespace OxfordStreet_online_app.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             User user = db.Users.Find(id);
+            user.Password = Decrypt(user.Password);
             if (user == null)
             {
                 return HttpNotFound();
@@ -171,8 +175,11 @@ namespace OxfordStreet_online_app.Controllers
                 if (user.IsEmployee)
                 {
                     Employee employee = db.Employees.FirstOrDefault(e => e.UserId == user.UserId);
-                    Session.Add("employeeId", employee.EmployeeId);
-                    Session.Add("employeeRole", employee.Role);
+                    if (employee != null)
+                    {
+                        Session.Add("employeeId", employee.EmployeeId);
+                        Session.Add("employeeRole", employee.Role);
+                    }
                 }
                 return RedirectToAction("Index", "Home");
             }
@@ -184,6 +191,7 @@ namespace OxfordStreet_online_app.Controllers
 
         }
 
+        //GET
         public ActionResult Logout()
         {
             if (Session["userId"] != null)
