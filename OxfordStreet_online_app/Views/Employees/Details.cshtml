@@ -10,42 +10,45 @@
     <h4>Employee</h4>
     <hr />
     <dl class="dl-horizontal">
+        
         <dt>
-            @Html.DisplayNameFor(model => model.Branch.Name)
+            Name
         </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.FirstName) @Html.DisplayFor(model => model.User.LastName)
+        </dd>
+        
+        <dt>
+            Email
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.Email)
+        </dd>
 
+        <dt>
+            Branch
+        </dt>
         <dd>
             @Html.DisplayFor(model => model.Branch.Name)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.User.FirstName)
+            Monthly Salary
         </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.User.FirstName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MonthlySalary)
-        </dt>
-
         <dd>
             @Html.DisplayFor(model => model.MonthlySalary)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Role)
+            Role
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Role)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.IsManager)
+            Is Manager?
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.IsManager)
         </dd>

@@ -218,7 +218,6 @@ namespace OxfordStreet_online_app.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Signup(string firstName, string lastName, string email, string password, string passwordVerification)
         {
-            var error = false;
             if (String.IsNullOrEmpty(firstName)
                 || String.IsNullOrEmpty(lastName)
                 || String.IsNullOrEmpty(email)

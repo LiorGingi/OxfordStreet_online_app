@@ -20,25 +20,38 @@ namespace OxfordStreet_online_app.Controllers
         //add product to cart-- if cart doesn't exists create new one. --> POST
         //edit product quantity in cartId --> POST
 
-        public ActionResult Details(string id)
+        public ActionResult Details()
         {
-            var cartItems = db.CartItems.Where(ci => ci.CartId == id);
-            return View(cartItems.ToList());
+
+            if (Session["cartId"] == null)
+            {
+                return View();
+            }
+            else
+            {
+                String cartId = (String) Session["cartId"];
+                var cartItems = db.CartItems.Include(p => p.Product).Where(ci => ci.CartId == cartId);
+                return View(cartItems.ToList());
+            }
         }
-        public ActionResult DeleteCart(string cartId)
+        public ActionResult DeleteCart()
         {
+            String cartId = (String)Session["cartId"];
             var cartItems = db.CartItems.Where(ci => ci.CartId == cartId);
             foreach(CartItem cartItem in cartItems)
             {
                 db.CartItems.Remove(cartItem);
             }
-            return View();//need to update the return address to shop
+            db.SaveChanges();
+            return RedirectToAction("Details");
         }
-        public ActionResult DeleteProduct(string cartId, int productId)
+        public ActionResult DeleteProduct(int productId)
         {
+            String cartId = (String)Session["cartId"];
             CartItem cartItem = db.CartItems.FirstOrDefault(ci => ci.CartId == cartId && ci.ProductId == productId);
             db.CartItems.Remove(cartItem);
-            return View();//need to update the return address to shop
+            db.SaveChanges();
+            return RedirectToAction("Details");
         }
 
         public ActionResult AddProductToCart(int productId, int quantity)
@@ -46,7 +59,6 @@ namespace OxfordStreet_online_app.Controllers
             string cartId;
             if (Session["cartId"] == null)
             {
-                Random rnd = new Random();
                 cartId = DateTimeOffset.Now.ToUnixTimeSeconds().ToString() + Session.SessionID;
                 Session.Add("cartId", cartId);
             }
@@ -55,6 +67,7 @@ namespace OxfordStreet_online_app.Controllers
                 cartId = (string)Session["cartId"];
             }
 
+            //TODO: need to check if product already exists in cart
             Product product = db.Products.Find(productId);
             CartItem ci = new CartItem
             {
@@ -66,12 +79,13 @@ namespace OxfordStreet_online_app.Controllers
             };
             db.CartItems.Add(ci);
             db.SaveChanges();
-            return View();
+            return RedirectToAction("Details");
         }
 
         public ActionResult EditQuantity(int productId, int newQuatity)
         {
-            CartItem CartItem = db.CartItems.FirstOrDefault(ci => ci.CartId == (string)Session["cartId"] && ci.ProductId == productId);
+            String cartId = (String)Session["cartId"];
+            CartItem CartItem = db.CartItems.FirstOrDefault(ci => ci.CartId == cartId && ci.ProductId == productId);
             CartItem.Quantity = newQuatity;
             db.Entry(CartItem).State = EntityState.Modified;
             db.SaveChanges();

@@ -156,6 +156,10 @@
     <Compile Include="Migrations\201906051525362_add_product_name.Designer.cs">
       <DependentUpon>201906051525362_add_product_name.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908090908143_oap-2.cs" />
+    <Compile Include="Migrations\201908090908143_oap-2.Designer.cs">
+      <DependentUpon>201908090908143_oap-2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Branch.cs" />
     <Compile Include="Models\CartItem.cs" />
@@ -169,6 +173,7 @@
     <Compile Include="Models\Supplier.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\EmployeeUser.cs" />
     <Compile Include="ViewModels\OrderStatusViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -247,6 +252,7 @@
     <Content Include="Views\Users\Login.cshtml" />
     <Content Include="Views\Users\Signup.cshtml" />
     <Content Include="Views\CartItems\Details.cshtml" />
+    <Content Include="Views\Employees\Signup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -277,6 +283,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906051525362_add_product_name.resx">
       <DependentUpon>201906051525362_add_product_name.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908090908143_oap-2.resx">
+      <DependentUpon>201908090908143_oap-2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
