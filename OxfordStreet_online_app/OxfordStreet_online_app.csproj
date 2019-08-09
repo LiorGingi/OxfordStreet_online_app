@@ -245,6 +245,7 @@
     <Content Include="Views\Products\DetailsPage.cshtml" />
     <Content Include="Views\Products\Category.cshtml" />
     <Content Include="Views\Users\Login.cshtml" />
+    <Content Include="Views\Users\Signup.cshtml" />
     <Content Include="Views\CartItems\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>

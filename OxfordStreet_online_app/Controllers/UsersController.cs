@@ -76,6 +76,7 @@ namespace OxfordStreet_online_app.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             User user = db.Users.Find(id);
+            user.Password = Decrypt(user.Password);
             if (user == null)
             {
                 return HttpNotFound();
