@@ -9,7 +9,7 @@ namespace OxfordStreet_online_app.ViewModels
 {
     public class OrderStatusViewModel
     {
-        [Range(1, int.MaxValue, ErrorMessage = "Select a Items")]
+        [Range(1, int.MaxValue, ErrorMessage = "Select Items")]
         public OrderStatus OrderStatus { get; set; }
     }
 }

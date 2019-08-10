@@ -14,15 +14,27 @@
 
 <form method="post" action="@Url.Action("Signup", "Users")">
     @Html.AntiForgeryToken()
-    <label for="firstName">First Name:</label>
-    <input class="form-control" type="text" name="firstName" id="firstName" value="" /><br />
-    <label for="lastName">Last Name:</label>
-    <input class="form-control" type="text" name="lastName" id="lastName" value="" /><br />
-    <label for="email">Email:</label>
-    <input class="form-control" type="email" name="email" id="email" value="" /><br />
-    <label for="password">Password:</label>
-    <input class="form-control" type="password" name="password" id="password" value="" /><br />
-    <label for="passwordVerification">Password Verification:</label>
-    <input class="form-control" type="password" name="passwordVerification" id="passwordVerification" value="" /><br /><br />
-    <input class="btn btn-default btn-lg btn-block" type="submit" value="Submit" class="submit" />
+
+    First Name:<br />
+    <input type="text" name="firstName" value="" /><br />
+
+    Last Name:<br />
+    <input type="text" name="lastName" value="" /><br />
+
+    Email:<br />
+    <input type="text" name="email" value="" /><br />
+
+    Phone Number:<br />
+    <input type="tel" name="phone" value="" /><br />
+
+    Address:<br />
+    <input type="text" name="address" value="" /><br />
+
+    Password:<br />
+    <input type="password" name="password" value="" /><br />
+
+    Password Verification:<br />
+    <input type="password" name="passwordVerification" value="" /><br /><br />
+    <input type="submit" value="Submit" class="btn btn-default btn-lg btn-block" />
+
 </form>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Core.Common.CommandTrees;
@@ -30,7 +31,7 @@ namespace OxfordStreet_online_app.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = db.Employees.Find(id);
+            Employee employee = db.Employees.Include(e => e.Branch).Include(e => e.User).FirstOrDefault(e => e.EmployeeId == id);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -42,7 +43,7 @@ namespace OxfordStreet_online_app.Controllers
         public ActionResult Create()
         {
             ViewBag.BranchId = new SelectList(db.Branches, "BranchId", "Name");
-            ViewBag.UserId = new SelectList(db.Users, "UserId", "FirstName");
+            ViewBag.UserId = new SelectList(db.Users, "UserId", "UserId");
             return View();
         }
 
@@ -72,7 +73,7 @@ namespace OxfordStreet_online_app.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = db.Employees.Find(id);
+            Employee employee = db.Employees.Include(e => e.Branch).Include(e => e.User).FirstOrDefault(e => e.EmployeeId == id);
             if (employee == null)
             {
                 return HttpNotFound();
@@ -145,6 +146,89 @@ namespace OxfordStreet_online_app.Controllers
             
 
             return View(result.ToList());
+        }
+
+
+        //GET: Employees/Signup
+        public ActionResult Signup()
+        {
+            ViewBag.BranchId = new SelectList(db.Branches, "BranchId", "Name");
+            return View();
+        }
+
+        //POST: Users/Signup
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Signup(string firstName, string lastName, Role role, int monthlySalary, int branchId, string manager,
+            string email, string password, string passwordVerification)
+        {
+            if (String.IsNullOrEmpty(firstName)
+                || String.IsNullOrEmpty(lastName)
+                || String.IsNullOrEmpty(email)
+                || String.IsNullOrEmpty(password)
+                || String.IsNullOrEmpty(passwordVerification))
+            {
+                ViewBag.Error = "All fields are required";
+                return View();
+            }
+            else
+            {
+                User checkIfExist = db.Users.FirstOrDefault(user => user.Email == email);
+                if (checkIfExist == null)
+                {
+                    if (password == passwordVerification)
+                    {
+                        User newUser = new User
+                        {
+                            Email = email,
+                            FirstName = firstName,
+                            IsEmployee = true,
+                            LastName = lastName,
+                            Password = new UsersController().Encrypt(password)
+                        };
+                        db.Users.Add(newUser);
+                        db.SaveChanges();
+
+                        User addedUser = db.Users.FirstOrDefault(user => user.Email == email);
+                        Boolean isManager;
+
+                        if (manager == "Manager")
+                        {
+                            isManager = true;
+                        }
+                        else
+                        {
+                            isManager = false;
+                        }
+
+                        Employee newEmployee = new Employee()
+                        {
+                            BranchId = branchId,
+                            UserId = addedUser.UserId,
+                            IsManager = isManager,
+                            MonthlySalary = monthlySalary,
+                            Role = role
+                        };
+                        db.Employees.Add(newEmployee);
+                        db.SaveChanges();
+
+                        //need to create a new employee here
+
+                        return RedirectToAction("Index", "Home"); //where should I return on success?
+                    }
+                    else
+                    {
+                        ViewBag.Error = "Password verification failed, please try again";
+                        return View();
+                    }
+
+                }
+                else
+                {
+                    ViewBag.Error = "Email already exists";
+                    return View();
+                }
+            }
         }
     }
 }

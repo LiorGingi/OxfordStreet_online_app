@@ -12,19 +12,19 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Branch.Name)
+            Branch Name
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.User.FirstName)
+            Customer's Name
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Date)
+            Order Created At
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TotalCost)
+            Total Cost
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Status)
+            Order Status
         </th>
         <th></th>
     </tr>
@@ -35,13 +35,13 @@
             @Html.DisplayFor(modelItem => item.Branch.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.User.FirstName)
+            @Html.DisplayFor(modelItem => item.User.FirstName) @Html.DisplayFor(modelItem => item.User.LastName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Date)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.TotalCost)
+            @Html.DisplayFor(modelItem => item.TotalCost) ₪
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Status)

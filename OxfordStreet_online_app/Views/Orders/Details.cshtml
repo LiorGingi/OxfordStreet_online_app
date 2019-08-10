@@ -7,11 +7,11 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Order</h4>
+    <h4>Order ID @Model.OrderId</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Branch.Name)
+            Branch Name
         </dt>
 
         <dd>
@@ -19,15 +19,15 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.User.FirstName)
+            Customer's Name
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.User.FirstName)
+            @Html.DisplayFor(model => model.User.FirstName) @Html.DisplayFor(model => model.User.LastName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Date)
+            Order Created At
         </dt>
 
         <dd>
@@ -35,15 +35,15 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.TotalCost)
+            Total Cost
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.TotalCost)
+            @Html.DisplayFor(model => model.TotalCost) ₪
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Status)
+            Order Status
         </dt>
 
         <dd>
@@ -51,6 +51,29 @@
         </dd>
 
     </dl>
+    
+    <table class="table">
+        <tr>
+            <th>
+                Product ID
+            </th>
+            <th>
+                Quantity
+            </th>
+        </tr>
+        
+        @foreach (var item in Model.OrderProducts)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+            </tr>
+        }
+    </table>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.OrderId }) |

@@ -20,20 +20,71 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Address)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.BranchId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.BranchId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.BranchId })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.BranchId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.BranchId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.BranchId })
+            </td>
+        </tr>
+    }
 
 </table>
+
+<div id="map"></div>
+<script type="text/javascript" src="scripts/index.js"></script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDKf5j-d046aIy3YffJAHzlykRXxbf9PE4&callback=initMap">
+</script>
+
+<script>
+    function initMap() {
+        var center = { lat: 32.0351716, lng: 34.7665252 };
+        var locations = [
+            ['Online Store HQ & Warehouse<br>\
+    Carlebach St 6, Tel Aviv-Yafo, 6713208<br>\
+   <a href="https://g.page/tlvmall?share">Get Directions</a>', 32.0676987, 34.7815317],
+            ['TLV Flagship, Azrieli Mall<br>\
+    Derech Menachem Begin 132, Tel Aviv-Yafo<br>\
+   <a href="https://goo.gl/maps/QFQorrCpW9ZApCw48">Get Directions</a>', 32.0745963, 34.789679],
+            ['HaZahav Mall<br>\
+    David Saharov St 21, Rishon LeTsiyon<br>\
+    <a href="https://goo.gl/maps/KfKzq8mwuVfXFcvm8">Get Directions</a>', 31.9906285, 34.7724602]
+        ];
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 11.5,
+            center: center
+        });
+        var infowindow = new google.maps.InfoWindow({});
+        var marker, count;
+        for (count = 0; count < locations.length; count++) {
+            marker = new google.maps.Marker({
+                position: new google.maps.LatLng(locations[count][1], locations[count][2]),
+                map: map,
+                title: locations[count][0]
+            });
+            google.maps.event.addListener(marker, 'click', (function (marker, count) {
+                return function () {
+                    infowindow.setContent(locations[count][0]);
+                    infowindow.open(map, marker);
+                }
+            })(marker, count));
+        }
+    }
+</script>
+
+<Style>
+    #map {
+        height: 400px;
+        width: 100%;
+        background-color: grey;
+    }
+</Style>

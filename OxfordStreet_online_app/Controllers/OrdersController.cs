@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Mvc.Html;
 using OxfordStreet_online_app.Models;
 
 namespace OxfordStreet_online_app.Controllers
@@ -28,7 +29,9 @@ namespace OxfordStreet_online_app.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = db.Orders.Find(id);
+
+            Order order = db.Orders.Include(o => o.User).Include(o => o.OrderProducts).Include(o => o.Branch)
+                .FirstOrDefault(o => o.OrderId == id);
             if (order == null)
             {
                 return HttpNotFound();
@@ -105,7 +108,8 @@ namespace OxfordStreet_online_app.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = db.Orders.Find(id);
+
+            Order order = db.Orders.Include(o => o.Branch).FirstOrDefault(o => o.OrderId == id);
             if (order == null)
             {
                 return HttpNotFound();
@@ -118,7 +122,11 @@ namespace OxfordStreet_online_app.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Order order = db.Orders.Find(id);
+            Order order = db.Orders.Include(o => o.OrderProducts).FirstOrDefault(o => o.OrderId == id);
+            foreach (var item in order.OrderProducts) //if deleting an order, delete also rows on OrderProducts
+            {
+                db.OrderProducts.Remove(item);
+            }
             db.Orders.Remove(order);
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -153,6 +161,185 @@ namespace OxfordStreet_online_app.Controllers
             //select count(orderId) from orders
             //group by userId
 
+        }
+
+        //Need to add branch choose
+        public ActionResult Checkout()
+        {
+            if(Session["cartId"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                if (Session["userId"] != null)
+                {
+                    var userId = Session["userId"];
+                    User user = db.Users.Find(userId);
+                    if (user != null)
+                    {
+                        return View(user);
+                    }
+                    else
+                    {
+                        return View();
+                    }
+                }
+                else
+                {
+                    return View();
+                }
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Checkout(string firstName, string lastName, string address, string phone, string email)
+        {
+            if (String.IsNullOrEmpty(firstName)
+                || String.IsNullOrEmpty(lastName)
+                || String.IsNullOrEmpty(email)
+                || String.IsNullOrEmpty(phone)
+                || String.IsNullOrEmpty(address))
+            {
+                ViewBag.Error = "All fields are required";
+                return View();
+            }
+            else
+            {
+                int userId = -1;
+                if (Session["userId"] == null)
+                {
+                    if (db.Users.FirstOrDefault(u => u.Email == email && u.Password != null) != null) //if there's a registered user
+                    {
+                        ViewBag.Error = "Email address already in use, please login to your account or use different address.";
+                        return View();
+                    }
+                    else
+                    {
+                        User notRegisteredUser = db.Users.FirstOrDefault(u => u.Email == email && u.Password == null);
+                        if (notRegisteredUser != null)
+                        {
+                            notRegisteredUser.FirstName = firstName;
+                            notRegisteredUser.LastName = lastName;
+                            notRegisteredUser.PhoneNumber = phone;
+                            notRegisteredUser.Email = email;
+                            db.Entry(notRegisteredUser).State = EntityState.Modified;
+                            db.SaveChanges();
+                            userId = notRegisteredUser.UserId;
+                        }
+                        else
+                        {
+                            User newUser = new User
+                            {
+                                FirstName = firstName,
+                                LastName = lastName,
+                                Email = email,
+                                Address = address,
+                                PhoneNumber = phone,
+                                IsEmployee = false,
+                                Password = null
+                            };
+                            db.Users.Add(newUser);
+                            userId = db.Users.Count();
+                        }
+                    }
+                }
+
+                if (userId == -1)
+                {
+                    userId = (int)Session["userId"];
+                }
+                String cart = (String)Session["cartId"];
+
+                Order order = new Order
+                {
+                    UserId = userId,
+                    Date = DateTime.Now,
+                    TotalCost = (int)Session["cartTotal"],
+                    Status = OrderStatus.New,
+                    BranchId = 1
+                };
+                db.Orders.Add(order);
+                db.SaveChanges();
+
+                int orderId = db.Orders.Count();
+                IEnumerable<CartItem> items = db.CartItems.Where(ci => ci.CartId == cart).ToList();
+                foreach (var cartItem in items)
+                {
+                    OrderProduct orderProduct = new OrderProduct
+                    {
+                        OrderId = orderId,
+                        ProductId = cartItem.ProductId,
+                        Quantity = cartItem.Quantity
+                    };
+                    db.OrderProducts.Add(orderProduct);
+                }
+
+                db.SaveChanges();
+                return RedirectToAction("ThankYouPage", new {orderId = orderId});
+            }
+        }
+
+        public ActionResult ThankYouPage(int orderId)
+        {
+            ViewBag.OrderId = orderId;
+            return View();
+        }
+
+        public ActionResult OrderDetails()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult OrderDetails(string email, int orderId)
+        {
+            Order order = db.Orders.Include(o => o.User).Include(o => o.OrderProducts).FirstOrDefault(o => o.OrderId == orderId);
+            if (order != null)
+            {
+                if (order.User.Email == email)
+                {
+                    ViewBag.OrderId = orderId;
+                    ViewBag.OrderStatus = order.Status;
+                    return View(order);
+                }
+                else
+                {
+                    ViewBag.Error = "Email address or order ID are incorrect.";
+                    return View();
+                }
+            }
+            else
+            {
+                ViewBag.Error = "Email address or order ID are incorrect.";
+                return View();
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CancelOrder(int orderId)
+        {
+            Order order = db.Orders.Include(o => o.User).FirstOrDefault(o => o.OrderId == orderId);
+            if (order != null)
+            {
+                if (order.Status != OrderStatus.Cancelled)
+                {
+                    order.Status = OrderStatus.Cancelled;
+                    db.Entry(order).State = EntityState.Modified;
+                    db.SaveChanges();
+                    ViewBag.Error = "Order cancelled successfully.";
+                    return View();
+                }
+                else
+                {
+                    ViewBag.Error = "Order already cancelled.";
+                    return View();
+                }
+            }
+            return RedirectToAction("Index", "Home");
         }
     }
 }
