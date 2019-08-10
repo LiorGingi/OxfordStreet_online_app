@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Mvc.Html;
 using OxfordStreet_online_app.Models;
 
 namespace OxfordStreet_online_app.Controllers
@@ -28,7 +29,9 @@ namespace OxfordStreet_online_app.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = db.Orders.Find(id);
+
+            Order order = db.Orders.Include(o => o.User).Include(o => o.OrderProducts).Include(o => o.Branch)
+                .FirstOrDefault(o => o.OrderId == id);
             if (order == null)
             {
                 return HttpNotFound();
@@ -105,7 +108,8 @@ namespace OxfordStreet_online_app.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Order order = db.Orders.Find(id);
+
+            Order order = db.Orders.Include(o => o.Branch).FirstOrDefault(o => o.OrderId == id);
             if (order == null)
             {
                 return HttpNotFound();
@@ -118,7 +122,11 @@ namespace OxfordStreet_online_app.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Order order = db.Orders.Find(id);
+            Order order = db.Orders.Include(o => o.OrderProducts).FirstOrDefault(o => o.OrderId == id);
+            foreach (var item in order.OrderProducts) //if deleting an order, delete also rows on OrderProducts
+            {
+                db.OrderProducts.Remove(item);
+            }
             db.Orders.Remove(order);
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -247,7 +255,7 @@ namespace OxfordStreet_online_app.Controllers
                 Order order = new Order
                 {
                     UserId = userId,
-                    Date = DateTime.Today,
+                    Date = DateTime.Now,
                     TotalCost = (int)Session["cartTotal"],
                     Status = OrderStatus.New,
                     BranchId = 1
