@@ -160,6 +160,10 @@
     <Compile Include="Migrations\201908090908143_oap-2.Designer.cs">
       <DependentUpon>201908090908143_oap-2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908100947276_users-update.cs" />
+    <Compile Include="Migrations\201908100947276_users-update.Designer.cs">
+      <DependentUpon>201908100947276_users-update.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Branch.cs" />
     <Compile Include="Models\CartItem.cs" />
@@ -253,6 +257,10 @@
     <Content Include="Views\Users\Signup.cshtml" />
     <Content Include="Views\CartItems\Details.cshtml" />
     <Content Include="Views\Employees\Signup.cshtml" />
+    <Content Include="Views\Orders\Checkout.cshtml" />
+    <Content Include="Views\Orders\ThankYouPage.cshtml" />
+    <Content Include="Views\Orders\OrderDetails.cshtml" />
+    <Content Include="Views\Orders\CancelOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -286,6 +294,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908090908143_oap-2.resx">
       <DependentUpon>201908090908143_oap-2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908100947276_users-update.resx">
+      <DependentUpon>201908100947276_users-update.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

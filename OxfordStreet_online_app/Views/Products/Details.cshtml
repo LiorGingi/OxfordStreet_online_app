@@ -16,12 +16,12 @@
     </div>
     <div class="col-md-3">
         <div class="product-page-details-container">
-            <div>@Html.DisplayFor(model => model.Price) NIS</div>
+            <div>@Html.DisplayFor(model => model.Price) ₪</div>
             <div>@Html.DisplayFor(model => model.WeatherType)</div>
         </div>
         
         <form method="post" action="@Url.Action("AddProductToCart", "CartItems")">
-            Quantity: <input type="number" min="0" name="quantity" value="" />
+            Quantity: <input type="number" min="1" name="quantity" value="1" />
             <input type="hidden" name="productId" value="@Model.ProductId" />
             <input type="submit" value="Add To Cart" class="submit" />
         </form>

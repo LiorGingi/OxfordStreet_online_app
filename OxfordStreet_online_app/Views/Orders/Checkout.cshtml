@@ -1,0 +1,48 @@
+﻿@model OxfordStreet_online_app.Models.User
+
+@{
+    ViewBag.Title = "Checkout";
+}
+
+<h2>Checkout</h2>
+
+@if (ViewBag.Error != null)
+{
+    <label>Error: @ViewBag.Error</label>
+}
+
+<h3>Total Price: @Session["cartTotal"] ₪</h3>
+
+<form method="post" action="@Url.Action("Checkout", "Orders")">
+    @Html.AntiForgeryToken()
+
+    @if (Model != null)
+    {
+        <p>First Name:</p><br />
+        <input type="text" name="firstName" value="@Model.FirstName" readonly="readonly" /><br />
+        <p>Last Name:</p><br />
+        <input type="text" name="lastName" value="@Model.LastName" readonly="readonly" /><br />
+        <p>Email:</p><br />
+        <input type="email" name="email" value="@Model.Email" readonly="readonly" /><br />
+        <p>Phone Number:</p><br />
+        <input type="tel" name="phone" value="@Model.PhoneNumber" readonly="readonly" /><br />
+        <p>Address:</p><br />
+        <input type="text" name="address" value="@Model.Address" readonly="readonly" /><br />
+    }
+
+    else
+    {
+        <p>First Name:</p><br />
+        <input type="text" name="firstName" value="" /><br />
+        <p>Last Name:</p><br />
+        <input type="text" name="lastName" value="" /><br />
+        <p>Email:</p><br />
+        <input type="email" name="email" value="" /><br />
+        <p>Phone Number:</p><br />
+        <input type="tel" name="phone" value="" /><br />
+        <p>Address:</p><br />
+        <input type="text" name="address" value="" /><br />
+    }
+
+    <input type="submit" value="Submit" class="submit" />
+</form>

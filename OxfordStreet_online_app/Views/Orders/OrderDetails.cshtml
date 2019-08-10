@@ -1,0 +1,56 @@
+﻿@model OxfordStreet_online_app.Models.Order
+
+@{
+    ViewBag.Title = "OrderDetails";
+}
+
+@if (ViewBag.Error != null)
+{
+    <label>Error: @ViewBag.Error</label>
+}
+
+
+@if (Model == null)
+{
+    <form method="post" action="@Url.Action("OrderDetails", "Orders")">
+        @Html.AntiForgeryToken()
+        Email: <input type="text" name="email" value="" /><br />
+        Order ID: <input type="number" name="orderId" value="" /><br />
+        <input type="submit" value="Submit" class="submit" />
+    </form>
+}
+else
+{
+    <h3>Order ID: @Model.OrderId</h3>
+    <h3>Order Status: @Model.Status</h3>
+    <h3>Total Paid: @Model.TotalCost ₪</h3>
+
+    <table class="table">
+        <tr>
+            <th>
+                Product ID
+            </th>
+            <th>
+                Quantity
+            </th>
+        </tr>
+        
+        @foreach (var item in Model.OrderProducts)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+            </tr>
+        }
+    </table>
+
+    <form method="post" action="@Url.Action("CancelOrder", "Orders")">
+        @Html.AntiForgeryToken()
+        <input type="hidden" value="@Model.OrderId" name="orderId"/>
+        <input type="submit" value="Cancel Order" class="submit" />
+    </form>
+}

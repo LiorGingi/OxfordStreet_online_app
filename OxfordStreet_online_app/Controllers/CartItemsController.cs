@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.SessionState;
 using OxfordStreet_online_app.Models;
 
 namespace OxfordStreet_online_app.Controllers
@@ -31,6 +32,7 @@ namespace OxfordStreet_online_app.Controllers
             {
                 String cartId = (String) Session["cartId"];
                 var cartItems = db.CartItems.Include(p => p.Product).Where(ci => ci.CartId == cartId);
+                ViewBag.Total = 0;
                 return View(cartItems.ToList());
             }
         }
@@ -43,6 +45,7 @@ namespace OxfordStreet_online_app.Controllers
                 db.CartItems.Remove(cartItem);
             }
             db.SaveChanges();
+            Session.Remove("cartId");
             return RedirectToAction("Details");
         }
         public ActionResult DeleteProduct(int productId)
@@ -51,7 +54,13 @@ namespace OxfordStreet_online_app.Controllers
             CartItem cartItem = db.CartItems.FirstOrDefault(ci => ci.CartId == cartId && ci.ProductId == productId);
             db.CartItems.Remove(cartItem);
             db.SaveChanges();
-            return RedirectToAction("Details");
+
+            if (db.CartItems.FirstOrDefault(ci => ci.CartId == cartId) == null)
+            {
+                Session.Remove("cartId");
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult AddProductToCart(int productId, int quantity)
@@ -90,6 +99,12 @@ namespace OxfordStreet_online_app.Controllers
             db.Entry(CartItem).State = EntityState.Modified;
             db.SaveChanges();
             return View();
+        }
+
+        public ActionResult ClickCheckout(int cartTotal)
+        {
+            Session.Add("cartTotal", cartTotal);
+            return RedirectToAction("Checkout", "Orders");
         }
     }
 }
