@@ -156,6 +156,10 @@
     <Compile Include="Migrations\201906051525362_add_product_name.Designer.cs">
       <DependentUpon>201906051525362_add_product_name.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908091927253_model-changes-v3.cs" />
+    <Compile Include="Migrations\201908091927253_model-changes-v3.Designer.cs">
+      <DependentUpon>201908091927253_model-changes-v3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Branch.cs" />
     <Compile Include="Models\CartItem.cs" />
@@ -183,6 +187,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="fonts\PortLligatSans-Regular.ttf" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -278,6 +283,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906051525362_add_product_name.resx">
       <DependentUpon>201906051525362_add_product_name.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908091927253_model-changes-v3.resx">
+      <DependentUpon>201908091927253_model-changes-v3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -7,14 +7,16 @@
 
 @if (ViewBag.Error != null)
 {
-    <label>Error: @ViewBag.Error</label>
+    <div class="alert-danger">
+        Error: @ViewBag.Error
+    </div>
 }
 
-<form method="post" action="@Url.Action("Login", "Users")">
-    @Html.AntiForgeryToken()
-    Email:<br />
-    <input type="text" name="email" value="" /><br />
-    Password:<br />
-    <input type="password" name="password" value="" /><br /><br />
-    <input type="submit" value="Submit" class="submit" />
-</form>
+    <form method="post" action="@Url.Action("Login", "Users")">
+        @Html.AntiForgeryToken()
+        <label for="email">Email:</label>
+        <input class="form-control" type="text" name="email" id="email" value="" /><br />
+        <label for="password">Password:</label>
+        <input class="form-control" type="password" name="password" id="password" value="" /><br /><br />
+        <input class="btn btn-default btn-lg btn-block" type="submit" value="Submit" />
+    </form>
