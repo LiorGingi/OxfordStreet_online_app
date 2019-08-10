@@ -28,11 +28,13 @@ namespace OxfordStreet_online_app.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             OrderProduct orderProduct = db.OrderProducts.Find(id);
             if (orderProduct == null)
             {
                 return HttpNotFound();
             }
+
             return View(orderProduct);
         }
 
@@ -49,7 +51,8 @@ namespace OxfordStreet_online_app.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "OrderId,ProductId,Quantity")] OrderProduct orderProduct)
+        public ActionResult Create([Bind(Include = "OrderId,ProductId,Quantity")]
+            OrderProduct orderProduct)
         {
             if (ModelState.IsValid)
             {
@@ -70,11 +73,13 @@ namespace OxfordStreet_online_app.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             OrderProduct orderProduct = db.OrderProducts.Find(id);
             if (orderProduct == null)
             {
                 return HttpNotFound();
             }
+
             ViewBag.OrderId = new SelectList(db.Orders, "OrderId", "Status", orderProduct.OrderId);
             ViewBag.ProductId = new SelectList(db.Products, "ProductId", "Category", orderProduct.ProductId);
             return View(orderProduct);
@@ -85,7 +90,8 @@ namespace OxfordStreet_online_app.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "OrderId,ProductId,Quantity")] OrderProduct orderProduct)
+        public ActionResult Edit([Bind(Include = "OrderId,ProductId,Quantity")]
+            OrderProduct orderProduct)
         {
             if (ModelState.IsValid)
             {
@@ -93,6 +99,7 @@ namespace OxfordStreet_online_app.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
             ViewBag.OrderId = new SelectList(db.Orders, "OrderId", "Status", orderProduct.OrderId);
             ViewBag.ProductId = new SelectList(db.Products, "ProductId", "Category", orderProduct.ProductId);
             return View(orderProduct);
@@ -105,11 +112,13 @@ namespace OxfordStreet_online_app.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             OrderProduct orderProduct = db.OrderProducts.Find(id);
             if (orderProduct == null)
             {
                 return HttpNotFound();
             }
+
             return View(orderProduct);
         }
 
@@ -130,7 +139,9 @@ namespace OxfordStreet_online_app.Controllers
             {
                 db.Dispose();
             }
+
             base.Dispose(disposing);
         }
+
     }
 }

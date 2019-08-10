@@ -28,6 +28,14 @@ namespace OxfordStreet_online_app.Models
 
         [Required]
         public bool IsEmployee { get; set; }
-        public string Password { get; set; } //need to add password encrypt and decrypt
+
+        public string Address { get; set; }
+
+        [Display(Name = "Phone Number")]
+        [DataType(DataType.PhoneNumber)]
+        [Phone]
+        public string PhoneNumber { get; set; }
+
+        public string Password { get; set; } //if there's no password, it's a guest account
     }
 }

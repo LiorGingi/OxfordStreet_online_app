@@ -8,8 +8,8 @@ namespace OxfordStreet_online_app.Models
     public enum Role
     {
         CEO,
-        BranchManager,
-        SalesRepresentative,
-        EcomManager
+        Branch_Manager,
+        Sales_Representative,
+        Ecommerce_Manager
     }
 }

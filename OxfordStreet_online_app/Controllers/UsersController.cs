@@ -166,7 +166,7 @@ namespace OxfordStreet_online_app.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(string email, string password)
         {
-            User user = db.Users.FirstOrDefault(u => u.Email == email);
+            User user = db.Users.FirstOrDefault(u => u.Email == email && u.Password != null);
             if (user != null && password != null && Decrypt(user.Password) == password)
             {
                 Session.Add("userId", user.UserId);
@@ -216,13 +216,15 @@ namespace OxfordStreet_online_app.Controllers
         //POST: Users/Signup
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Signup(string firstName, string lastName, string email, string password, string passwordVerification)
+        public ActionResult Signup(string firstName, string lastName, string email, string password, string passwordVerification,
+            string phone, string address)
         {
-            var error = false;
             if (String.IsNullOrEmpty(firstName)
                 || String.IsNullOrEmpty(lastName)
                 || String.IsNullOrEmpty(email)
-                || String.IsNullOrEmpty(passwordVerification)
+                || String.IsNullOrEmpty(phone)
+                || String.IsNullOrEmpty(address)
+                || String.IsNullOrEmpty(password)
                 || String.IsNullOrEmpty(passwordVerification))
             {
                 ViewBag.Error = "All fields are required";
@@ -230,21 +232,39 @@ namespace OxfordStreet_online_app.Controllers
             }
             else
             {
-                User checkIfExist = db.Users.FirstOrDefault(user => user.Email == email);
+                User checkIfExist = db.Users.FirstOrDefault(user => user.Email == email && user.Password != null);
                 if (checkIfExist == null)
                 {
                     if (password == passwordVerification)
                     {
-                        User newUser = new User
+                        User checkNotRegistered = db.Users.FirstOrDefault(user => user.Email == email && user.Password == null);
+                        if (checkNotRegistered == null)
                         {
-                            Email = email,
-                            FirstName = firstName,
-                            IsEmployee = false,
-                            LastName = lastName,
-                            Password = Encrypt(password)
-                        };
-                        db.Users.Add(newUser);
-                        db.SaveChanges();
+                            User newUser = new User
+                            {
+                                Email = email,
+                                FirstName = firstName,
+                                IsEmployee = false,
+                                LastName = lastName,
+                                PhoneNumber = phone,
+                                Address = address,
+                                Password = Encrypt(password)
+                            };
+                            db.Users.Add(newUser);
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            checkNotRegistered.FirstName = firstName;
+                            checkNotRegistered.LastName = lastName;
+                            checkNotRegistered.IsEmployee = false;
+                            checkNotRegistered.Email = email;
+                            checkNotRegistered.PhoneNumber = phone;
+                            checkNotRegistered.Address = address;
+                            checkNotRegistered.Password = Encrypt(password);
+                            db.Entry(checkNotRegistered).State = EntityState.Modified;
+                            db.SaveChanges();
+                        }
 
                         Login(email, password);
                         return RedirectToAction("Index", "Home");
@@ -258,7 +278,7 @@ namespace OxfordStreet_online_app.Controllers
                 }
                 else
                 {
-                    ViewBag.Error = "Email already exists";
+                    ViewBag.Error = "User already exists";
                     return View();
                 }
             }
