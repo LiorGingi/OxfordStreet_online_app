@@ -1,5 +1,4 @@
-﻿@using OxfordStreet_online_app.Models
-@model IEnumerable<OxfordStreet_online_app.Models.Product>
+﻿@model IEnumerable<OxfordStreet_online_app.Models.Product>
 
 @{
     ViewBag.Title = "Index";
@@ -10,69 +9,61 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Supplier.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Category)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SubCategory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WeatherType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ImageUrl)
+        </th>
+        <th></th>
+    </tr>
 
-@if (Model == null)
-{
-    <p>Cart Is Empty.</p>
-}
-else
-{
-    <table class="table">
+    @foreach (var item in Model) {
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Supplier.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SubCategory)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.WeatherType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageUrl)
-            </th>
-            <th></th>
+            <td>
+                @Html.DisplayFor(modelItem => item.Supplier.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubCategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WeatherType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImageUrl)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.ProductId }) |
+                @Html.ActionLink("Details", "Details", new { id=item.ProductId }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.ProductId })
+            </td>
         </tr>
+    }
 
-        @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Supplier.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Category)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SubCategory)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.WeatherType)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ImageUrl)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id=item.ProductId }) |
-                    @Html.ActionLink("Details", "Details", new { id=item.ProductId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id=item.ProductId })
-                </td>
-            </tr>
-        }
-
-    </table>
-}
+</table>
