@@ -3,52 +3,68 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
     <link href="https://fonts.googleapis.com/css?family=Roboto:700&display=swap" rel="stylesheet">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - Nofar's</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/Style.css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
+    <header>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
 
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
+                <div class="navbar-header">
+                    @Html.ActionLink("Nofar's accessories", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-
+                    <li class="top-user-section">@Html.ActionLink("Home Page", "Index", "Home")</li>
+                    <li class="top-user-section">@Html.ActionLink("Products", "Category", "Products")</li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
                     @if (Session["userId"] == null)
                     {
-                        <li class="top-user-section">@Html.ActionLink("Login", "Login", "Users")</li>
-                        <li class="top-user-section">@Html.ActionLink("Signup", "Signup", "Users")</li>
+                        <li> @Html.ActionLink("Login", "Login", "Users")</li>
+                        <li> @Html.ActionLink("Signup", "Signup", "Users")</li>
                     }
                     else
                     {
-                        <li class="top-user-section" id="userName">Welcome, @Session["userName"]</li>
+                        <li class="top-user-section" id="userName">
+                            <a id="user-hello">Welcome, @Session["userName"]</a>
+                        </li>
                         //Admin panel is employee, User panel is user
                         <li class="top-user-section">@Html.ActionLink("Logout", "Logout", "Users")</li>
                     }
                 </ul>
             </div>
-        </div>
-    </div>
-    <div class="container body-content">
+        </nav>
+    </header>
+    <section class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+    </section>
 
+    <footer>
+        <div class="container">
+
+            <section class="col-md-4" id="about">
+                <h2 class="page-header footer-header">About</h2>
+                 @Html.ActionLink("About us", "About", "Home")<br/>
+                 @Html.ActionLink("Branches", "Index", "Branches")
+            </section>
+            <section class="col-md-4" id="help&information">
+                <h2 class="page-header footer-header">Help & Information</h2>
+                @Html.ActionLink("Contact us", "Contact", "Home")
+            </section>
+            <section class="col-md-4" id="social_links">
+                <h2 class="page-header footer-header">Find us on</h2>
+                <a href="#" class="fa fa-facebook"></a>                                                                 
+            </section>
+        </div>
+    </footer>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
