@@ -5,8 +5,10 @@
 }
 
 @if (ViewBag.Error != null)
-{
-    <label>Error: @ViewBag.Error</label>
+{ 
+    <div class="alert-danger">
+        Error: @ViewBag.Error
+    </div>
 }
 
 

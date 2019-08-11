@@ -3,13 +3,13 @@
 @model IEnumerable<OxfordStreet_online_app.Models.CartItem>
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Cart Details";
 }
 
 
 @if (Model == null || Model.Count() == 0)
 {
-    <p>Cart Is Empty.</p>
+    <div class="alert-warning">Cart Is Empty.</div>
 }
 else
 {
