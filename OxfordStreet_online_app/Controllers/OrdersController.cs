@@ -154,7 +154,7 @@ namespace OxfordStreet_online_app.Controllers
         public ActionResult CountOrdersPerUser()
         {
             var result = from o in db.Orders.GroupBy(o => o.UserId)
-                select new {count = o.Count()};
+                         select new { count = o.Count() };
 
             return View(result.ToList());
 
@@ -166,7 +166,7 @@ namespace OxfordStreet_online_app.Controllers
         //Need to add branch choose
         public ActionResult Checkout()
         {
-            if(Session["cartId"] == null)
+            if (Session["cartId"] == null)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -241,7 +241,8 @@ namespace OxfordStreet_online_app.Controllers
                                 Password = null
                             };
                             db.Users.Add(newUser);
-                            userId = db.Users.Count();
+                            db.SaveChanges();
+                            userId = db.Users.Max(u => u.UserId);
                         }
                     }
                 }
@@ -262,8 +263,7 @@ namespace OxfordStreet_online_app.Controllers
                 };
                 db.Orders.Add(order);
                 db.SaveChanges();
-
-                int orderId = db.Orders.Count();
+                int orderId = db.Orders.Max(o => o.OrderId);
                 IEnumerable<CartItem> items = db.CartItems.Where(ci => ci.CartId == cart).ToList();
                 foreach (var cartItem in items)
                 {
@@ -277,7 +277,9 @@ namespace OxfordStreet_online_app.Controllers
                 }
 
                 db.SaveChanges();
-                return RedirectToAction("ThankYouPage", new {orderId = orderId});
+                Session.Remove("cartId");
+                Session.Remove("cartTotal");
+                return RedirectToAction("ThankYouPage", new { orderId = orderId });
             }
         }
 
