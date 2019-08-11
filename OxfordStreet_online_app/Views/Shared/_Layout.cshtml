@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     
     <link href="https://fonts.googleapis.com/css?family=Roboto:700&display=swap" rel="stylesheet">
-    <title>@ViewBag.Title - Nofar's</title>
+    <title>@ViewBag.Title - Nofar's Accessories</title>
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/Style.css")
     @Scripts.Render("~/bundles/modernizr")
@@ -18,15 +18,15 @@
             <div class="container-fluid">
 
                 <div class="navbar-header">
-                    @Html.ActionLink("Nofar's accessories", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                    @Html.ActionLink("Nofar's Accessories", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
                 </div>
                 <ul class="nav navbar-nav">
                     <li class="top-user-section">@Html.ActionLink("Home Page", "Index", "Home")</li>
                     <li class="top-user-section">@Html.ActionLink("Products", "Category", "Products")</li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li style="font-weight:bold"> @Html.ActionLink("View Cart", "Details", "CartItems")</li>
-                    <li> @Html.ActionLink("Branches", "Index", "Branches")</li>
+                    @*<li class="glyphicon glyphicon-shopping-cart"> @Html.ActionLink("View Cart", "Details", "CartItems")</>
+                    *@<li> @Html.ActionLink("Branches", "Index", "Branches")</li>
                     @if (Session["userId"] == null)
                     {
                         <li> @Html.ActionLink("Login", "Login", "Users")</li>
@@ -41,6 +41,9 @@
                         <li class="top-user-section">@Html.ActionLink("Logout", "Logout", "Users")</li>
                     }
                 </ul>
+                <a class="btn btn-toolbar btn-lg nav navbar-nav navbar-right" href="/cartitems/details">
+                    <span class="cart-icon glyphicon glyphicon-shopping-cart"></span>
+                </a>
             </div>
         </nav>
     </header>

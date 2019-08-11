@@ -1,11 +1,11 @@
 ﻿@model OxfordStreet_online_app.Models.Product
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Product Details";
 }
 
 <div class="product-page-title">
-    <h2>@Html.DisplayFor(model => model.Name)</h2>
+    <h2 class="page-header header">@Html.DisplayFor(model => model.Name)</h2>
 </div>
 
 <div class="row">
@@ -21,9 +21,10 @@
         </div>
         
         <form method="post" action="@Url.Action("AddProductToCart", "CartItems")">
-            Quantity: <input type="number" min="1" name="quantity" value="1" />
+            <label for="quantity">Quantity:</label>
+            <input class="form-control" id="quantity" type="number" min="1" name="quantity" value="1" />
             <input type="hidden" name="productId" value="@Model.ProductId" />
-            <input type="submit" value="Add To Cart" class="submit" />
+            <input type="submit" value="Add To Cart" class="btn btn-default btn-lg btn-block" />
         </form>
     </div>
     

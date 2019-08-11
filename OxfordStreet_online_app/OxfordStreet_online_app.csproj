@@ -210,6 +210,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Videos\SS18V.mp4" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -239,11 +240,6 @@
     <Content Include="Views\Orders\Details.cshtml" />
     <Content Include="Views\Orders\Edit.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
-    <Content Include="Views\OrderProducts\Create.cshtml" />
-    <Content Include="Views\OrderProducts\Delete.cshtml" />
-    <Content Include="Views\OrderProducts\Details.cshtml" />
-    <Content Include="Views\OrderProducts\Edit.cshtml" />
-    <Content Include="Views\OrderProducts\Index.cshtml" />
     <Content Include="Views\Users\Create.cshtml" />
     <Content Include="Views\Users\Delete.cshtml" />
     <Content Include="Views\Users\Details.cshtml" />
@@ -259,7 +255,6 @@
     <Content Include="Views\Products\Details.cshtml" />
     <Content Include="Views\Products\Edit.cshtml" />
     <Content Include="Views\Products\Index.cshtml" />
-    <Content Include="Views\Products\DetailsPage.cshtml" />
     <Content Include="Views\Products\Category.cshtml" />
     <Content Include="Views\Users\Login.cshtml" />
     <Content Include="Views\Users\Signup.cshtml" />
@@ -271,6 +266,7 @@
     <Content Include="Views\Orders\CancelOrder.cshtml" />
     <Content Include="Views\Admin\MonthlyGrossing.cshtml" />
     <Content Include="Views\Admin\SalesPerProduct.cshtml" />
+    <Content Include="Views\Admin\ApiTest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

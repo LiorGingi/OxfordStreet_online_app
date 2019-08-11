@@ -76,5 +76,12 @@ namespace OxfordStreet_online_app.Controllers
             return View(spp);
         }
 
+        public ActionResult ApiTest()
+        {
+            var products = db.Products.Include(p => p.Supplier);
+            ViewBag.CurrentTemp = -1;
+            return View(products.ToList());
+        }
+
     }
 }
