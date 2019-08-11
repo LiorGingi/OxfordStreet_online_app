@@ -28,11 +28,9 @@ video {
 #user-hello{
     color: white;
 }
-    .logo:hover {
-        width: 100px;
-        height: 100px;
-        transition: width 2s;
-    }
+.cart-icon {
+    padding-top: 5px;
+}
 
 /*------------------------------
 =SIDEBAR

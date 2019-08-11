@@ -25,8 +25,8 @@
                     <li class="top-user-section">@Html.ActionLink("Products", "Category", "Products")</li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li style="font-weight:bold"> @Html.ActionLink("View Cart", "Details", "CartItems")</li>
-                    <li> @Html.ActionLink("Branches", "Index", "Branches")</li>
+                    @*<li class="glyphicon glyphicon-shopping-cart"> @Html.ActionLink("View Cart", "Details", "CartItems")</>
+                    *@<li> @Html.ActionLink("Branches", "Index", "Branches")</li>
                     @if (Session["userId"] == null)
                     {
                         <li> @Html.ActionLink("Login", "Login", "Users")</li>
@@ -41,6 +41,9 @@
                         <li class="top-user-section">@Html.ActionLink("Logout", "Logout", "Users")</li>
                     }
                 </ul>
+                <a class="btn btn-toolbar btn-lg nav navbar-nav navbar-right" href="/cartitems/details">
+                    <span class="cart-icon glyphicon glyphicon-shopping-cart"></span>
+                </a>
             </div>
         </nav>
     </header>
