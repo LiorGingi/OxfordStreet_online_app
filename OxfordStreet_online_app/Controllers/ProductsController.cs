@@ -54,7 +54,7 @@ namespace OxfordStreet_online_app.Controllers
             {
                 db.Products.Add(product);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("CreationConfirmation");
             }
 
             ViewBag.SupplierId = new SelectList(db.Suppliers, "SupplierId", "Name", product.SupplierId);
@@ -129,32 +129,43 @@ namespace OxfordStreet_online_app.Controllers
             base.Dispose(disposing);
         }
 
-        public ActionResult Search(String category = null, int? maxPrice = null, int? minPrice = 0)
+        // GET: Products/Category/Sunglasses
+        public ActionResult Category(string category = null)
         {
-            var dataQuery = db.Products.Where(product => product.Price >= minPrice
-                                                         && (maxPrice == null ? true : product.Price <= maxPrice)
-                                                         && (category == null ? true : product.Category == category));
+            var items = db.Products.Select(p => p.Category).Distinct();
+            ViewBag.prodCategory = new SelectList(items);
+
+            return View((category == null
+                ? db.Products
+                : db.Products.Where(product => product.Category == category)).ToList());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Category(int? prodMaxPrice, string prodCategory = null, string prodName = null)
+        {
+            var dataQuery = db.Products.Where(product => (prodMaxPrice == null ? true : product.Price <= prodMaxPrice)
+                                                                   && (prodCategory == null ? true : product.Category == prodCategory)
+                                                                   && (prodName == null ? true : product.Name.Contains(prodName)));
+
+            var items = db.Products.Select(p => p.Category).Distinct();
+            ViewBag.prodCategory = new SelectList(items);
+
             return View(dataQuery.ToList());
         }
 
-        //need to check this function
-        public ActionResult OrderProductDetails(int? orderId = null)
+        public ActionResult CreationConfirmation()
         {
-            var result = (from o in db.Orders // from orders o
-                join op in db.OrderProducts on o.OrderId equals op.OrderId //inner join orderProducts op on o.id = op.id
-                join p in db.Products on op.ProductId equals p.ProductId
-                where (orderId == null ? true : o.OrderId == orderId)
-                select new { o, op, p });
+            var newProductId = db.Products.Max(o => o.ProductId);
+            var product = db.Products.Find(newProductId);
 
-            return View(result.ToList());
-        }
+            if (product != null)
+            {
+                ViewBag.Message = "Check our our new " + product.Name + " product!";
+                return View(product);
+            }
 
-        // GET: Products/Category/Sunglasses
-        public ActionResult Category(string id = null)
-        {
-            return View((id == null
-                ? db.Products
-                : db.Products.Where(product => product.Category == id)).ToList());
+            return RedirectToAction("Index");
         }
     }
 }

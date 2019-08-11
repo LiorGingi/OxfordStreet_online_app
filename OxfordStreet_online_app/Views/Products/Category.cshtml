@@ -6,6 +6,27 @@
 
 <h2  class="page-header header">Products Category</h2>
 
+<form method="post" action="@Url.Action("Category", "Products")">
+    @Html.AntiForgeryToken()
+    <div class="container" style="border-style: solid; border-width: 2px;">
+        <h3>Search Products</h3>
+        <div class="row" style="margin: 10px;">
+            <div class="col-sm-4">
+                <input class="form-control" type="text" name="prodName" value="" placeholder="Product Name" />
+            </div>
+            <div class="col-sm-4">
+                <input class="form-control" type="number" name="prodMaxPrice" min="1" value="" placeholder="Max price in ₪" />
+            </div>
+            <div class="col-sm-4">
+                @Html.DropDownList("prodCategory", null, "Select Product Category", htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+        <div style="margin: 5px">
+            <input type="submit" value="Search" class="btn btn-default" />
+        </div>
+    </div>
+</form>
+
 <div class="container">
     @for (var i = 0; i < Model.Count(); i+=3)
     {
@@ -16,7 +37,8 @@
                         <img class="category-product-img" src="@Html.DisplayFor(modelItem => Model.ElementAt(i).ImageUrl)" alt="@Html.DisplayFor(modelItem => Model.ElementAt(i).Name)" />
                         <div class="category-product-details-container">
                             <div class="category-product-name">@Html.DisplayFor(modelItem => Model.ElementAt(i).Name)</div>
-                            <div class="category-product-price">@Html.DisplayFor(modelItem => Model.ElementAt(i).Price) NIS</div>
+                            <div class="category-product-price">@Html.DisplayFor(modelItem => Model.ElementAt(i).Price) ₪
+                        </div>
                         </div>
                     </a>
                 </div>
@@ -30,7 +52,7 @@
                             <img class="category-product-img" src="@Html.DisplayFor(modelItem => Model.ElementAt(i+1).ImageUrl)" alt="@Html.DisplayFor(modelItem => Model.ElementAt(i+1).Name)" />
                             <div class="category-product-details-container">
                                 <div class="category-product-name">@Html.DisplayFor(modelItem => Model.ElementAt(i + 1).Name)</div>
-                                <div class="category-product-price">@Html.DisplayFor(modelItem => Model.ElementAt(i + 1).Price) NIS</div>
+                                <div class="category-product-price">@Html.DisplayFor(modelItem => Model.ElementAt(i + 1).Price) ₪</div>
                             </div>
                         </a>
                     </div>
@@ -45,7 +67,7 @@
                             <img class="category-product-img" src="@Html.DisplayFor(modelItem => Model.ElementAt(i+2).ImageUrl)" alt="@Html.DisplayFor(modelItem => Model.ElementAt(i+2).Name)" />
                             <div class="category-product-details-container">
                                 <div class="category-product-name">@Html.DisplayFor(modelItem => Model.ElementAt(i+2).Name)</div>
-                                <div class="category-product-price">@Html.DisplayFor(modelItem => Model.ElementAt(i+2).Price) NIS</div>
+                                <div class="category-product-price">@Html.DisplayFor(modelItem => Model.ElementAt(i + 2).Price) ₪</div>
                             </div>
                         </a>
                     </div>

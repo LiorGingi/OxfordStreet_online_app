@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
+using System.Web.WebPages;
 using OxfordStreet_online_app.Models;
 
 namespace OxfordStreet_online_app.Controllers
@@ -19,6 +20,34 @@ namespace OxfordStreet_online_app.Controllers
         public ActionResult Index()
         {
             var orders = db.Orders.Include(o => o.Branch).Include(o => o.User);
+            return View(orders.ToList());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(int? minTotal, int? status, DateTime? minDate)
+        {
+            OrderStatus os = 0;
+            switch (status)
+            {
+                case 0:
+                    os = OrderStatus.Completed;
+                    break;
+                case 1:
+                    os = OrderStatus.InProgress;
+                    break;
+                case 2:
+                    os = OrderStatus.New;
+                    break;
+                case 3:
+                    os = OrderStatus.Cancelled;
+                    break;
+            }
+
+            var orders = db.Orders.Include(o => o.Branch).Include(o => o.User).Where(order => (minTotal == null ? true : order.TotalCost >= minTotal)
+                                                    &&(status == null ? true : order.Status == os)
+                                                    &&(minDate == null ? true : order.Date >= minDate));
+
             return View(orders.ToList());
         }
 
