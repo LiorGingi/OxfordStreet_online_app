@@ -3,11 +3,13 @@
     ViewBag.Title = "Signup New Employee";
 }
 
-<h2>Signup</h2>
+<h2 class="page-header header">Employee Signup</h2>
 
 @if (ViewBag.Error != null)
 {
-    <label>Error: @ViewBag.Error</label>
+    <div class="alert-danger">
+        Error: @ViewBag.Error
+    </div>
 }
 
 <form method="post" action="@Url.Action("Signup", "Employees")">
