@@ -21,7 +21,7 @@ body {
 #user-hello{
     color: white;
 }
-    .logo: hover {
+    .logo:hover {
         width: 100px;
         height: 100px;
         transition: width 2s;
