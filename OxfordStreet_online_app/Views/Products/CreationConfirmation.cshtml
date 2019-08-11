@@ -1,0 +1,24 @@
+﻿@model OxfordStreet_online_app.Models.Product
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+@{
+    ViewBag.Title = "CreationConfirmation";
+}
+
+<h2>Product created successfully!</h2>
+
+<script>
+
+    var message = "@ViewBag.Message.ToString()";
+    var url =
+        "https://graph.facebook.com/108498187173044/feed?access_token=EAApsJlcf780BAF16bOHFQxp5dkAdJbZAyM1ZBVMZCZAFwu2JZCMApAafJCqAQMQ81oKPNsQPfbHhovvQjReYLJIXhkhFQJh7SDePVQOgFB5CbxoNM3Dkq3s38ZBF9lMkAalZB7Fa1rlwgTEQp0BuHYis9Citug4BINReZCrJEwrlKuL9HZAfZCkyOEBMrgmLZBCB3cZD&message=" +
+            message;
+    $.ajax({
+        type: "POST",
+        url: url,
+        success: function (json) {
+            console.log(JSON.stringify(json));
+        }
+    });
+</script>

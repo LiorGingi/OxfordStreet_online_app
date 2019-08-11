@@ -54,7 +54,7 @@ namespace OxfordStreet_online_app.Controllers
             {
                 db.Products.Add(product);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("CreationConfirmation");
             }
 
             ViewBag.SupplierId = new SelectList(db.Suppliers, "SupplierId", "Name", product.SupplierId);
@@ -152,6 +152,20 @@ namespace OxfordStreet_online_app.Controllers
             ViewBag.prodCategory = new SelectList(items);
 
             return View(dataQuery.ToList());
+        }
+
+        public ActionResult CreationConfirmation()
+        {
+            var newProductId = db.Products.Max(o => o.ProductId);
+            var product = db.Products.Find(newProductId);
+
+            if (product != null)
+            {
+                ViewBag.Message = "Check our our new " + product.Name + " product!";
+                return View(product);
+            }
+
+            return RedirectToAction("Index");
         }
     }
 }
