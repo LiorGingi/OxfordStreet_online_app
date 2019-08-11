@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using OxfordStreet_online_app.Models;
+using OxfordStreet_online_app.ViewModels;
 
 namespace OxfordStreet_online_app.Controllers
 {
@@ -30,5 +31,50 @@ namespace OxfordStreet_online_app.Controllers
         {
             return new UsersController().Index();
         }
+
+        public ActionResult MonthlyGrossing()
+        {
+            List<MonthlyGrossing> mg = new List<MonthlyGrossing>();
+            var results = db.Orders.Where(o => o.Status != OrderStatus.Cancelled)
+                .GroupBy(o => o.Date.Month)
+                .Select(o => new
+                {
+                    Month = o.Key,
+                    Total = o.Sum(x => x.TotalCost)
+                }).ToList();
+
+            foreach (var item in results)
+            {
+                mg.Add(new MonthlyGrossing()
+                {
+                    Month = item.Month,
+                    Total = item.Total
+                });
+            }
+            return View(mg);
+        }
+
+        public ActionResult SalesPerProduct()
+        {
+            List<SalesPerProduct> spp = new List<SalesPerProduct>();
+            var results = db.OrderProducts
+                .GroupBy(o => o.ProductId)
+                .Select(o => new
+                {
+                    Id = o.Key,
+                    Sales = o.Sum(x => x.Quantity)
+                }).ToList();
+
+            foreach (var item in results)
+            {
+                spp.Add(new SalesPerProduct()
+                {
+                    ProductId = item.Id,
+                    CountSales = item.Sales
+                });
+            }
+            return View(spp);
+        }
+
     }
 }

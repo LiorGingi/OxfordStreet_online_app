@@ -25,6 +25,8 @@
                     <li class="top-user-section">@Html.ActionLink("Products", "Category", "Products")</li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    <li style="font-weight:bold"> @Html.ActionLink("View Cart", "Details", "CartItems")</li>
+                    <li> @Html.ActionLink("Branches", "Index", "Branches")</li>
                     @if (Session["userId"] == null)
                     {
                         <li> @Html.ActionLink("Login", "Login", "Users")</li>

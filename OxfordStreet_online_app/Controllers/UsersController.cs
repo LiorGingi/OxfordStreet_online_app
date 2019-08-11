@@ -178,7 +178,7 @@ namespace OxfordStreet_online_app.Controllers
                     if (employee != null)
                     {
                         Session.Add("employeeId", employee.EmployeeId);
-                        Session.Add("employeeRole", employee.Role);
+                        Session.Add("isManager", employee.IsManager);
                     }
                 }
                 return RedirectToAction("Index", "Home");
@@ -200,7 +200,7 @@ namespace OxfordStreet_online_app.Controllers
                 if ((bool)Session["isEmployee"])
                 {
                     Session.Remove("employeeId");
-                    Session.Remove("employeeRole");
+                    Session.Remove("isManager");
                 }
                 Session.Remove("isEmployee");
             }

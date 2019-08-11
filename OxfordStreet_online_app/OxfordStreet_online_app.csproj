@@ -164,6 +164,10 @@
     <Compile Include="Migrations\201908100947276_users-update.Designer.cs">
       <DependentUpon>201908100947276_users-update.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908101925438_oap-3.cs" />
+    <Compile Include="Migrations\201908101925438_oap-3.Designer.cs">
+      <DependentUpon>201908101925438_oap-3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Branch.cs" />
     <Compile Include="Models\CartItem.cs" />
@@ -178,7 +182,9 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\EmployeeUser.cs" />
+    <Compile Include="ViewModels\MonthlyGrossing.cs" />
     <Compile Include="ViewModels\OrderStatusViewModel.cs" />
+    <Compile Include="ViewModels\SalesPerProduct.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -263,10 +269,11 @@
     <Content Include="Views\Orders\ThankYouPage.cshtml" />
     <Content Include="Views\Orders\OrderDetails.cshtml" />
     <Content Include="Views\Orders\CancelOrder.cshtml" />
+    <Content Include="Views\Admin\MonthlyGrossing.cshtml" />
+    <Content Include="Views\Admin\SalesPerProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Admin\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -294,11 +301,14 @@
     <EmbeddedResource Include="Migrations\201906051525362_add_product_name.resx">
       <DependentUpon>201906051525362_add_product_name.cs</DependentUpon>
     </EmbeddedResource>
-        <EmbeddedResource Include="Migrations\201908090908143_oap-2.resx">
+    <EmbeddedResource Include="Migrations\201908090908143_oap-2.resx">
       <DependentUpon>201908090908143_oap-2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908100947276_users-update.resx">
       <DependentUpon>201908100947276_users-update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908101925438_oap-3.resx">
+      <DependentUpon>201908101925438_oap-3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

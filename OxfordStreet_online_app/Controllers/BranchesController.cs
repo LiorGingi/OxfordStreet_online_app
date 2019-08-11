@@ -38,7 +38,11 @@ namespace OxfordStreet_online_app.Controllers
         // GET: Branches/Create
         public ActionResult Create()
         {
-            return View();
+            if (Session["isManager"] != null && (bool) Session["isManager"] == true)
+            {
+                return View();
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         // POST: Branches/Create
@@ -61,16 +65,21 @@ namespace OxfordStreet_online_app.Controllers
         // GET: Branches/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            if (Session["isManager"] != null && (bool)Session["isManager"] == true)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Branch branch = db.Branches.Find(id);
+                if (branch == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(branch);
             }
-            Branch branch = db.Branches.Find(id);
-            if (branch == null)
-            {
-                return HttpNotFound();
-            }
-            return View(branch);
+            return RedirectToAction("Index", "Home");
+
         }
 
         // POST: Branches/Edit/5
@@ -92,16 +101,20 @@ namespace OxfordStreet_online_app.Controllers
         // GET: Branches/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            if (Session["isManager"] != null && (bool) Session["isManager"] == true)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Branch branch = db.Branches.Find(id);
+                if (branch == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(branch);
             }
-            Branch branch = db.Branches.Find(id);
-            if (branch == null)
-            {
-                return HttpNotFound();
-            }
-            return View(branch);
+            return RedirectToAction("Index", "Home");
         }
 
         // POST: Branches/Delete/5

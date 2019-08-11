@@ -1,0 +1,48 @@
+﻿@model IEnumerable<OxfordStreet_online_app.ViewModels.MonthlyGrossing>
+
+@{
+    ViewBag.Title = "MonthlyGrossing";
+}
+
+<h2>Statistics - Monthly Grossing</h2>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.js"></script>
+<div id="svg"></div>
+
+<canvas id="myChart" width="400" height="200"></canvas>
+
+<script>
+    var x = [];
+    var y = [];
+</script>
+
+@foreach (var item in Model)
+{
+    <script>
+        x.push(@item.Month);
+        y.push(@item.Total);
+    </script>
+}
+
+<script>
+    new Chart(document.getElementById("myChart"), {
+        type: 'line',
+        data: {
+            labels: x,
+            datasets: [{ 
+                    data: y,
+                    label: "Monthly Grossing",
+                    borderColor: "#e8c3b9",
+                    fill: false
+                }
+            ]
+        },
+        options: {
+            title: {
+                display: false,
+                text: 'Monthly Grossing in ₪'
+            }
+        }
+    });
+</script>
+

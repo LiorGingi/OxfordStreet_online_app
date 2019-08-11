@@ -29,11 +29,15 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Address)
             </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.BranchId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.BranchId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.BranchId })
-            </td>
+            
+            @if (Session["isManager"] != null && (bool) Session["isManager"] == true)
+            {
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.BranchId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.BranchId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.BranchId })
+                </td>
+            }
         </tr>
     }
 

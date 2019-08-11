@@ -1,0 +1,62 @@
+﻿@model IEnumerable<OxfordStreet_online_app.ViewModels.SalesPerProduct>
+
+@{
+    ViewBag.Title = "SalesPerProduct";
+}
+
+<h2>Statistics - Sales Per Product</h2>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.js"></script>
+<div id="svg"></div>
+
+<canvas id="myChart" width="400" height="200"></canvas>
+
+<script>
+    var x = [];
+    var y = [];
+</script>
+
+@foreach (var item in Model)
+{
+    <script>
+        x.push(@item.ProductId);
+        y.push(@item.CountSales);
+    </script>
+}
+
+<script>
+    new Chart(document.getElementById("myChart"), {
+        type: 'bar',
+        data: {
+            labels: x,
+            datasets: [
+                {
+                    label: "Population (millions)",
+                    backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+                    data: y
+                }
+            ]
+        },
+        options: {
+            legend: { display: false },
+            title: {
+                display: true,
+                text: 'Predicted world population (millions) in 2050'
+            },scales: {
+                yAxes: [{ 
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Number Of Sales"
+                    }
+                }],
+                xAxes: [{ 
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Product ID"
+                    }
+                }]
+            }
+        }
+    });
+</script>
+
