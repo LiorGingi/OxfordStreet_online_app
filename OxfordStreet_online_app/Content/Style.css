@@ -28,10 +28,14 @@ video {
 #user-hello{
     color: white;
 }
+.cart-btn:hover {
+    color: white;
+    transition-property: color;
+    transition: linear 2s;
+}
 .cart-icon {
     padding-top: 5px;
 }
-
 /*------------------------------
 =SIDEBAR
 ------------------------------*/
@@ -53,12 +57,9 @@ footer {
             color: #fff;
             font-size: medium;
         }
-        footer a:hover {
-            color: #000;
-            width: 100px;
-            height: 100px;
-            transition: width 2s;
-        }
+            footer a:hover {
+                color: #000;
+            }
 
 .fa-facebook {
     background: #3B5998;
@@ -71,7 +72,12 @@ footer {
     font-size: 20px;
     width: 40px;
     text-align: center;
-    text-decoration: none;
-    margin: 5px 2px;
+    margin: 2px 2px;
 }
+    .fa:hover {
+        color: #fff;
+        width: 50px;
+        height: 50px;
+        transition: width 2s, height 2s;
+    }
 		  
