@@ -16,17 +16,22 @@
     </div>
     <div class="col-md-3">
         <div class="product-page-details-container">
-            <div>@Html.DisplayFor(model => model.Price) ₪</div>
-            <div>@Html.DisplayFor(model => model.WeatherType)</div>
-        </div>
-        
+            <div class="form-group">
+                <label for="price">Price:</label>
+                <label class="label-primary" id="price">@Html.DisplayFor(model => model.Price) ₪</label>
+            </div>
+            <div class="form-group">
+                <label for="weatherType">Weather type:</label>
+                <label class="label-primary" id="weatherType">@Html.DisplayFor(model => model.WeatherType)</label>
+            </div>
+         </div>
+
         <form method="post" action="@Url.Action("AddProductToCart", "CartItems")">
             <label for="quantity">Quantity:</label>
             <input class="form-control" id="quantity" type="number" min="1" name="quantity" value="1" />
             <input type="hidden" name="productId" value="@Model.ProductId" />
+                <!--ADD TO CART BTN-->
             <input type="submit" value="Add To Cart" class="btn btn-default btn-lg btn-block" />
-        </form>
+        </form>        
     </div>
-    
-    <!--ADD TO CART BTN-->
 </div>

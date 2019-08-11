@@ -28,12 +28,14 @@ video {
 #user-hello{
     color: white;
 }
-.cart-btn:hover {
+
+.cart-icon:hover {
     color: white;
     transition-property: color;
-    transition: linear 2s;
+    transition: linear 1s;
 }
 .cart-icon {
+    color: #9d9d9d;
     padding-top: 5px;
 }
 /*------------------------------
