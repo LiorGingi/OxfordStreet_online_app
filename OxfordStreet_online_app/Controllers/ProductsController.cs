@@ -129,32 +129,29 @@ namespace OxfordStreet_online_app.Controllers
             base.Dispose(disposing);
         }
 
-        public ActionResult Search(String category = null, int? maxPrice = null, int? minPrice = 0)
-        {
-            var dataQuery = db.Products.Where(product => product.Price >= minPrice
-                                                         && (maxPrice == null ? true : product.Price <= maxPrice)
-                                                         && (category == null ? true : product.Category == category));
-            return View(dataQuery.ToList());
-        }
-
-        //need to check this function
-        public ActionResult OrderProductDetails(int? orderId = null)
-        {
-            var result = (from o in db.Orders // from orders o
-                join op in db.OrderProducts on o.OrderId equals op.OrderId //inner join orderProducts op on o.id = op.id
-                join p in db.Products on op.ProductId equals p.ProductId
-                where (orderId == null ? true : o.OrderId == orderId)
-                select new { o, op, p });
-
-            return View(result.ToList());
-        }
-
         // GET: Products/Category/Sunglasses
-        public ActionResult Category(string id = null)
+        public ActionResult Category(string category = null)
         {
-            return View((id == null
+            var items = db.Products.Select(p => p.Category).Distinct();
+            ViewBag.prodCategory = new SelectList(items);
+
+            return View((category == null
                 ? db.Products
-                : db.Products.Where(product => product.Category == id)).ToList());
+                : db.Products.Where(product => product.Category == category)).ToList());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Category(int? prodMaxPrice, string prodCategory = null, string prodName = null)
+        {
+            var dataQuery = db.Products.Where(product => (prodMaxPrice == null ? true : product.Price <= prodMaxPrice)
+                                                                   && (prodCategory == null ? true : product.Category == prodCategory)
+                                                                   && (prodName == null ? true : product.Name.Contains(prodName)));
+
+            var items = db.Products.Select(p => p.Category).Distinct();
+            ViewBag.prodCategory = new SelectList(items);
+
+            return View(dataQuery.ToList());
         }
     }
 }

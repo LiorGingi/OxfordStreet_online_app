@@ -41,6 +41,22 @@
             title: {
                 display: false,
                 text: 'Monthly Grossing in ₪'
+            }, scales: {
+                yAxes: [{ 
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Grossing in ₪"
+                    },
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }],
+                xAxes: [{ 
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Month"
+                    }
+                }]
             }
         }
     });

@@ -1,10 +1,36 @@
-﻿@model IEnumerable<OxfordStreet_online_app.Models.Order>
+﻿@using OxfordStreet_online_app.Models
+@model IEnumerable<OxfordStreet_online_app.Models.Order>
 
 @{
     ViewBag.Title = "Orders";
 }
 
 <h2 class="page-header header">Orders</h2>
+
+<form method="post" action="@Url.Action("Index", "Orders")">
+    @Html.AntiForgeryToken()
+    <div class="container" style="border-style: solid; border-width: 2px;">
+        <h3>Search Orders</h3>
+        <div class="row" style="margin: 10px;">
+            <div class="col-sm-4">
+                <input name="minDate" class="form-control" placeholder="From Date" class="textbox-n" type="text" onfocus="(this.type='date')">
+            </div>
+            <div class="col-sm-4">
+                <input class="form-control" type="number" name="minTotal" min="1" value="" placeholder="Min Total Paid In ₪" />
+            </div>
+            <div class="col-sm-4">
+                @Html.DropDownList("status", 
+                    EnumHelper.GetSelectList(typeof(OrderStatus)) , 
+                    "Select Order Status", 
+                    new { @class = "form-control" })
+            </div>
+        </div>
+        <div style="margin: 5px">
+            <input type="submit" value="Search" class="btn btn-default" />
+        </div>
+    </div>
+</form>
+
 
 <p>
     @Html.ActionLink("Create New", "Create")
