@@ -31,7 +31,7 @@
             labels: x,
             datasets: [
                 {
-                    label: "Population (millions)",
+                    label: "Sold: ",
                     backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
                     data: y
                 }
@@ -41,12 +41,15 @@
             legend: { display: false },
             title: {
                 display: true,
-                text: 'Predicted world population (millions) in 2050'
+                text: 'Amount Sold Per Product'
             },scales: {
                 yAxes: [{ 
                     scaleLabel: {
                         display: true,
-                        labelString: "Number Of Sales"
+                        labelString: "Amount Sold"
+                    },
+                    ticks: {
+                        beginAtZero: true
                     }
                 }],
                 xAxes: [{ 

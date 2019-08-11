@@ -261,7 +261,6 @@ namespace OxfordStreet_online_app.Controllers
                     BranchId = 1
                 };
                 db.Orders.Add(order);
-                db.SaveChanges();
 
                 int orderId = db.Orders.Count();
                 IEnumerable<CartItem> items = db.CartItems.Where(ci => ci.CartId == cart).ToList();
