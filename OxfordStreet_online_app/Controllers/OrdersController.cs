@@ -19,8 +19,12 @@ namespace OxfordStreet_online_app.Controllers
         // GET: Orders
         public ActionResult Index()
         {
-            var orders = db.Orders.Include(o => o.Branch).Include(o => o.User);
-            return View(orders.ToList());
+            if (Session["isManager"] != null && (bool)Session["isManager"] == true)
+            {
+                var orders = db.Orders.Include(o => o.Branch).Include(o => o.User);
+                return View(orders.ToList());
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
@@ -54,26 +58,34 @@ namespace OxfordStreet_online_app.Controllers
         // GET: Orders/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
+            if (Session["isManager"] != null && (bool)Session["isManager"] == true)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
 
-            Order order = db.Orders.Include(o => o.User).Include(o => o.OrderProducts).Include(o => o.Branch)
-                .FirstOrDefault(o => o.OrderId == id);
-            if (order == null)
-            {
-                return HttpNotFound();
+                Order order = db.Orders.Include(o => o.User).Include(o => o.OrderProducts).Include(o => o.Branch)
+                    .FirstOrDefault(o => o.OrderId == id);
+                if (order == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(order);
             }
-            return View(order);
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Orders/Create
         public ActionResult Create()
         {
-            ViewBag.BranchId = new SelectList(db.Branches, "BranchId", "Name");
-            ViewBag.UserId = new SelectList(db.Users, "UserId", "FirstName");
-            return View();
+            if (Session["isManager"] != null && (bool)Session["isManager"] == true)
+            {
+                ViewBag.BranchId = new SelectList(db.Branches, "BranchId", "Name");
+                ViewBag.UserId = new SelectList(db.Users, "UserId", "FirstName");
+                return View();
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         // POST: Orders/Create
@@ -98,18 +110,22 @@ namespace OxfordStreet_online_app.Controllers
         // GET: Orders/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            if (Session["isManager"] != null && (bool)Session["isManager"] == true)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Order order = db.Orders.Find(id);
+                if (order == null)
+                {
+                    return HttpNotFound();
+                }
+                ViewBag.BranchId = new SelectList(db.Branches, "BranchId", "Name", order.BranchId);
+                ViewBag.UserId = new SelectList(db.Users, "UserId", "FirstName", order.UserId);
+                return View(order);
             }
-            Order order = db.Orders.Find(id);
-            if (order == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.BranchId = new SelectList(db.Branches, "BranchId", "Name", order.BranchId);
-            ViewBag.UserId = new SelectList(db.Users, "UserId", "FirstName", order.UserId);
-            return View(order);
+            return RedirectToAction("Index", "Home");
         }
 
         // POST: Orders/Edit/5
@@ -133,17 +149,21 @@ namespace OxfordStreet_online_app.Controllers
         // GET: Orders/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            if (Session["isManager"] != null && (bool)Session["isManager"] == true)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
 
-            Order order = db.Orders.Include(o => o.Branch).FirstOrDefault(o => o.OrderId == id);
-            if (order == null)
-            {
-                return HttpNotFound();
+                Order order = db.Orders.Include(o => o.Branch).FirstOrDefault(o => o.OrderId == id);
+                if (order == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(order);
             }
-            return View(order);
+            return RedirectToAction("Index", "Home");
         }
 
         // POST: Orders/Delete/5
@@ -178,18 +198,6 @@ namespace OxfordStreet_online_app.Controllers
                 (maxCost == null ? true : order.TotalCost <= maxCost) &&
                 (status == null ? true : order.Status == status));
             return View(orders.ToList());
-        }
-
-        public ActionResult CountOrdersPerUser()
-        {
-            var result = from o in db.Orders.GroupBy(o => o.UserId)
-                         select new { count = o.Count() };
-
-            return View(result.ToList());
-
-            //select count(orderId) from orders
-            //group by userId
-
         }
 
         //Need to add branch choose

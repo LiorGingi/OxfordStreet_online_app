@@ -17,63 +17,63 @@ namespace OxfordStreet_online_app.Controllers
         // GET: Admin
         public ActionResult Index()
         {
-            return View();
-        }
-
-        [Route("admin/products")]
-        public ActionResult GetAllProducts()
-        {
-            return new ProductsController().Index();
-        }
-
-        [Route("admin/users")]
-        public ActionResult GetAllUsers()
-        {
-            return new UsersController().Index();
+            if (Session["isManager"] != null && (bool)Session["isManager"] == true)
+            {
+                return View();
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult MonthlyGrossing()
         {
-            List<MonthlyGrossing> mg = new List<MonthlyGrossing>();
-            var results = db.Orders.Where(o => o.Status != OrderStatus.Cancelled)
-                .GroupBy(o => o.Date.Month)
-                .Select(o => new
-                {
-                    Month = o.Key,
-                    Total = o.Sum(x => x.TotalCost)
-                }).ToList();
-
-            foreach (var item in results)
+            if (Session["isManager"] != null && (bool)Session["isManager"] == true)
             {
-                mg.Add(new MonthlyGrossing()
+                List<MonthlyGrossing> mg = new List<MonthlyGrossing>();
+                var results = db.Orders.Where(o => o.Status != OrderStatus.Cancelled)
+                    .GroupBy(o => o.Date.Month)
+                    .Select(o => new
+                    {
+                        Month = o.Key,
+                        Total = o.Sum(x => x.TotalCost)
+                    }).ToList();
+
+                foreach (var item in results)
                 {
-                    Month = item.Month,
-                    Total = item.Total
-                });
+                    mg.Add(new MonthlyGrossing()
+                    {
+                        Month = item.Month,
+                        Total = item.Total
+                    });
+                }
+                return View(mg);
             }
-            return View(mg);
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult SalesPerProduct()
         {
-            List<SalesPerProduct> spp = new List<SalesPerProduct>();
-            var results = db.OrderProducts
-                .GroupBy(o => o.ProductId)
-                .Select(o => new
-                {
-                    Id = o.Key,
-                    Sales = o.Sum(x => x.Quantity)
-                }).ToList();
-
-            foreach (var item in results)
+            if (Session["isManager"] != null && (bool)Session["isManager"] == true)
             {
-                spp.Add(new SalesPerProduct()
+                List<SalesPerProduct> spp = new List<SalesPerProduct>();
+                var results = db.OrderProducts
+                    .GroupBy(o => o.ProductId)
+                    .Select(o => new
+                    {
+                        Id = o.Key,
+                        Sales = o.Sum(x => x.Quantity)
+                    }).ToList();
+
+                foreach (var item in results)
                 {
-                    ProductId = item.Id,
-                    CountSales = item.Sales
-                });
+                    spp.Add(new SalesPerProduct()
+                    {
+                        ProductId = item.Id,
+                        CountSales = item.Sales
+                    });
+                }
+                return View(spp);
             }
-            return View(spp);
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult ApiTest()

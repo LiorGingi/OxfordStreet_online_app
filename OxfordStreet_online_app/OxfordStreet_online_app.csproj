@@ -230,7 +230,6 @@
     <Content Include="Views\Branches\Details.cshtml" />
     <Content Include="Views\Branches\Edit.cshtml" />
     <Content Include="Views\Branches\Index.cshtml" />
-    <Content Include="Views\Employees\Create.cshtml" />
     <Content Include="Views\Employees\Delete.cshtml" />
     <Content Include="Views\Employees\Details.cshtml" />
     <Content Include="Views\Employees\Edit.cshtml" />
@@ -259,7 +258,7 @@
     <Content Include="Views\Users\Login.cshtml" />
     <Content Include="Views\Users\Signup.cshtml" />
     <Content Include="Views\CartItems\Details.cshtml" />
-    <Content Include="Views\Employees\Signup.cshtml" />
+    <Content Include="Views\Employees\Create.cshtml" />
     <Content Include="Views\Orders\Checkout.cshtml" />
     <Content Include="Views\Orders\ThankYouPage.cshtml" />
     <Content Include="Views\Orders\OrderDetails.cshtml" />
@@ -268,6 +267,7 @@
     <Content Include="Views\Admin\SalesPerProduct.cshtml" />
     <Content Include="Views\Admin\ApiTest.cshtml" />
     <Content Include="Views\Products\CreationConfirmation.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

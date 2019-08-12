@@ -17,28 +17,40 @@ namespace OxfordStreet_online_app.Controllers
         // GET: Suppliers
         public ActionResult Index()
         {
-            return View(db.Suppliers.ToList());
+            if (Session["isManager"] != null && (bool) Session["isManager"] == true)
+            {
+                return View(db.Suppliers.ToList());
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Suppliers/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
+            if (Session["isManager"] != null && (bool)Session["isManager"] == true)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Supplier supplier = db.Suppliers.Find(id);
+                if (supplier == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(supplier);
             }
-            Supplier supplier = db.Suppliers.Find(id);
-            if (supplier == null)
-            {
-                return HttpNotFound();
-            }
-            return View(supplier);
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Suppliers/Create
         public ActionResult Create()
         {
-            return View();
+            if (Session["isManager"] != null && (bool)Session["isManager"] == true)
+            {
+                return View();
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         // POST: Suppliers/Create
@@ -61,16 +73,20 @@ namespace OxfordStreet_online_app.Controllers
         // GET: Suppliers/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            if (Session["isManager"] != null && (bool)Session["isManager"] == true)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Supplier supplier = db.Suppliers.Find(id);
+                if (supplier == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(supplier);
             }
-            Supplier supplier = db.Suppliers.Find(id);
-            if (supplier == null)
-            {
-                return HttpNotFound();
-            }
-            return View(supplier);
+            return RedirectToAction("Index", "Home");
         }
 
         // POST: Suppliers/Edit/5
@@ -92,16 +108,20 @@ namespace OxfordStreet_online_app.Controllers
         // GET: Suppliers/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            if (Session["isManager"] != null && (bool)Session["isManager"] == true)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Supplier supplier = db.Suppliers.Find(id);
+                if (supplier == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(supplier);
             }
-            Supplier supplier = db.Suppliers.Find(id);
-            if (supplier == null)
-            {
-                return HttpNotFound();
-            }
-            return View(supplier);
+            return RedirectToAction("Index", "Home");
         }
 
         // POST: Suppliers/Delete/5

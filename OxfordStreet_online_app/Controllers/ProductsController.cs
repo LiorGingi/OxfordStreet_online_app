@@ -17,30 +17,42 @@ namespace OxfordStreet_online_app.Controllers
         // GET: Products
         public ActionResult Index()
         {
-            var products = db.Products.Include(p => p.Supplier);
-            return View(products.ToList());
+            if (Session["isManager"] != null && (bool)Session["isManager"] == true)
+            {
+                var products = db.Products.Include(p => p.Supplier);
+                return View(products.ToList());
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Products/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
+            if (Session["isManager"] != null && (bool)Session["isManager"] == true)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Product product = db.Products.Find(id);
+                if (product == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(product);
             }
-            Product product = db.Products.Find(id);
-            if (product == null)
-            {
-                return HttpNotFound();
-            }
-            return View(product);
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Products/Create
         public ActionResult Create()
         {
-            ViewBag.SupplierId = new SelectList(db.Suppliers, "SupplierId", "Name");
-            return View();
+            if (Session["isManager"] != null && (bool)Session["isManager"] == true)
+            {
+                ViewBag.SupplierId = new SelectList(db.Suppliers, "SupplierId", "Name");
+                return View();
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         // POST: Products/Create
@@ -64,17 +76,21 @@ namespace OxfordStreet_online_app.Controllers
         // GET: Products/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            if (Session["isManager"] != null && (bool)Session["isManager"] == true)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Product product = db.Products.Find(id);
+                if (product == null)
+                {
+                    return HttpNotFound();
+                }
+                ViewBag.SupplierId = new SelectList(db.Suppliers, "SupplierId", "Name", product.SupplierId);
+                return View(product);
             }
-            Product product = db.Products.Find(id);
-            if (product == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.SupplierId = new SelectList(db.Suppliers, "SupplierId", "Name", product.SupplierId);
-            return View(product);
+            return RedirectToAction("Index", "Home");
         }
 
         // POST: Products/Edit/5
@@ -97,16 +113,20 @@ namespace OxfordStreet_online_app.Controllers
         // GET: Products/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            if (Session["isManager"] != null && (bool)Session["isManager"] == true)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Product product = db.Products.Find(id);
+                if (product == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(product);
             }
-            Product product = db.Products.Find(id);
-            if (product == null)
-            {
-                return HttpNotFound();
-            }
-            return View(product);
+            return RedirectToAction("Index", "Home");
         }
 
         // POST: Products/Delete/5
@@ -145,10 +165,10 @@ namespace OxfordStreet_online_app.Controllers
         public ActionResult Category(int? prodMaxPrice, string prodCategory = null, string prodName = null)
         {
             var dataQuery = db.Products.Where(product => (prodMaxPrice == null ? true : product.Price <= prodMaxPrice)
-                                                                   && (prodCategory == null ? true : product.Category == prodCategory)
-                                                                   && (prodName == null ? true : product.Name.Contains(prodName)));
+                                                                   && (prodCategory == "" ? true : product.Category == prodCategory)
+                                                                   && (prodName == "" ? true : product.Name.Contains(prodName)));
 
-            var items = db.Products.Select(p => p.Category).Distinct();
+            var items = db.Products.GroupBy(p => p.Category).Select(p => p.Key);
             ViewBag.prodCategory = new SelectList(items);
 
             return View(dataQuery.ToList());
