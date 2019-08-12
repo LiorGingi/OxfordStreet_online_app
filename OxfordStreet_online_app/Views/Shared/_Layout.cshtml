@@ -23,10 +23,10 @@
                 <ul class="nav navbar-nav">
                     <li class="top-user-section">@Html.ActionLink("Home Page", "Index", "Home")</li>
                     <li class="top-user-section">@Html.ActionLink("Products", "Category", "Products")</li>
-                    <li class="top-user-section">@Html.ActionLink("Order Details", "OrderDetails", "Orders")</li>
+                    <li class="top-user-section"> @Html.ActionLink("Check Order", "OrderDetails", "Orders")</li>
+                    <li class="top-user-section"> @Html.ActionLink("Branches", "Index", "Branches")</li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li> @Html.ActionLink("Branches", "Index", "Branches")</li>
                     @if (Session["userId"] == null)
                     {
                         <li> @Html.ActionLink("Login", "Login", "Users")</li>
@@ -37,7 +37,10 @@
                         <li class="top-user-section" id="userName">
                             <a id="user-hello">Welcome, @Session["userName"]</a>
                         </li>
-                        //Admin panel is employee, User panel is user
+                        if (Session["isManager"] != null && (bool)Session["isManager"] == true)
+                        {
+                            <li> @Html.ActionLink("Admin Panel", "Index", "Admin")</li>
+                        }
                         <li class="top-user-section">@Html.ActionLink("Logout", "Logout", "Users")</li>
                     }
                 </ul>

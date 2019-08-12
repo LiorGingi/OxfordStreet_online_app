@@ -106,5 +106,12 @@ namespace OxfordStreet_online_app.Controllers
             Session.Add("cartTotal", cartTotal);
             return RedirectToAction("Checkout", "Orders");
         }
+
+        public Object CartItemsProducts()
+        {
+            var queryResult = db.CartItems.Join(db.Products,
+                ci => ci.ProductId, p => p.ProductId,(ci, p) => new { CartItems = ci, Product = p }).ToList();
+            return queryResult;
+        }
     }
 }

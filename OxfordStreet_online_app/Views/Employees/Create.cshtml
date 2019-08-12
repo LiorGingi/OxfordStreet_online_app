@@ -1,74 +1,61 @@
-﻿@model OxfordStreet_online_app.Models.Employee
-
+﻿@using OxfordStreet_online_app.Models
 @{
-    ViewBag.Title = "Create Employee";
+    ViewBag.Title = "Signup New Employee";
 }
 
-<h2 class="page-header header">Create Employee</h2>
+<h2 class="page-header header">Employee Signup</h2>
 
-
-@using (Html.BeginForm()) 
+@if (ViewBag.Error != null)
 {
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Employee</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.UserId, "UserId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("UserId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.MonthlySalary, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.MonthlySalary, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.MonthlySalary, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.BranchId, "BranchId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("BranchId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Role, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EnumDropDownListFor(model => model.Role, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IsManager, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.IsManager)
-                    @Html.ValidationMessageFor(model => model.IsManager, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
+    <div class="alert-danger">
+        Error: @ViewBag.Error
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+    <form method="post" action="@Url.Action("Create", "Employees")">
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            <label for="firstName">First Name:</label>
+            <input class="form-control" type="text" name="firstName" value="" id="firstName" />
+        </div>
+        <div class="form-group">
+            <label for="lastName">Last Name:</label>
+            <input class="form-control" type="text" name="lastName" value="" id="lastName" />
+        </div>
+        <div class="form-group">
+            <label for="Email:">Email:</label>
+            <input class="form-control" type="email" name="email" value="" id="email" />
+        </div>
+        <div class="form-group">
+            <label for="monthlySalary:">Monthly Salary:</label>
+            <input class="form-control" type="number" name="email" value="" id="monthlySalary" />
+        </div>
+        <div class="form-group">
+            <label>Branch:</label>
+            @Html.DropDownList("BranchId",
+                (IEnumerable<SelectListItem>)ViewBag.BranchId,
+                "Select Branch",
+                new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label>Role:</label>
+            @Html.DropDownList("role",
+                EnumHelper.GetSelectList(typeof(Role)),
+                "Select Role",
+                new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label for="manager">Is Manager?</label>
+            <input class="checkbox" type="checkbox" name="manager" value="Manager" id="manager">
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input class="form-control" type="password" name="password" value="" id="password" />
+        </div>
+        <div class="form-group">
+            <label for="passwordVerification">Password Verification:</label>
+            <input class="form-control" type="password" name="passwordVerification" value="" id="passwordVerification" />
+        </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+        <input type="submit" value="Submit" class="btn btn-default btn-lg btn-block" />
+    </form>

@@ -20,67 +20,53 @@ namespace OxfordStreet_online_app.Controllers
         // GET: Employees
         public ActionResult Index()
         {
-            var employees = db.Employees.Include(e => e.Branch).Include(e => e.User);
-            return View(employees.ToList());
+            if (Session["isManager"] != null && (bool)Session["isManager"] == true)
+            {
+                var employees = db.Employees.Include(e => e.Branch).Include(e => e.User);
+                return View(employees.ToList());
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Employees/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
+            if (Session["isManager"] != null && (bool)Session["isManager"] == true)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Employee employee = db.Employees.Include(e => e.Branch).Include(e => e.User).FirstOrDefault(e => e.EmployeeId == id);
+                if (employee == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(employee);
             }
-            Employee employee = db.Employees.Include(e => e.Branch).Include(e => e.User).FirstOrDefault(e => e.EmployeeId == id);
-            if (employee == null)
-            {
-                return HttpNotFound();
-            }
-            return View(employee);
-        }
-
-        // GET: Employees/Create
-        public ActionResult Create()
-        {
-            ViewBag.BranchId = new SelectList(db.Branches, "BranchId", "Name");
-            ViewBag.UserId = new SelectList(db.Users, "UserId", "UserId");
-            return View();
-        }
-
-        // POST: Employees/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "EmployeeId,UserId,MonthlySalary,BranchId,Role,IsManager")] Employee employee)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Employees.Add(employee);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.BranchId = new SelectList(db.Branches, "BranchId", "Name", employee.BranchId);
-            ViewBag.UserId = new SelectList(db.Users, "UserId", "FirstName", employee.UserId);
-            return View(employee);
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Employees/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+
+            if (Session["isManager"] != null && (bool)Session["isManager"] == true)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Employee employee = db.Employees.Include(e => e.Branch).Include(e => e.User).FirstOrDefault(e => e.EmployeeId == id);
+                if (employee == null)
+                {
+                    return HttpNotFound();
+                }
+                ViewBag.BranchId = new SelectList(db.Branches, "BranchId", "Name", employee.BranchId);
+                ViewBag.UserId = new SelectList(db.Users, "UserId", "FirstName", employee.UserId);
+                return View(employee);
             }
-            Employee employee = db.Employees.Include(e => e.Branch).Include(e => e.User).FirstOrDefault(e => e.EmployeeId == id);
-            if (employee == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.BranchId = new SelectList(db.Branches, "BranchId", "Name", employee.BranchId);
-            ViewBag.UserId = new SelectList(db.Users, "UserId", "FirstName", employee.UserId);
-            return View(employee);
+            return RedirectToAction("Index", "Home");
         }
 
         // POST: Employees/Edit/5
@@ -104,16 +90,20 @@ namespace OxfordStreet_online_app.Controllers
         // GET: Employees/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            if (Session["isManager"] != null && (bool)Session["isManager"] == true)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Employee employee = db.Employees.Find(id);
+                if (employee == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(employee);
             }
-            Employee employee = db.Employees.Find(id);
-            if (employee == null)
-            {
-                return HttpNotFound();
-            }
-            return View(employee);
+            return RedirectToAction("Index", "Home");
         }
 
         // POST: Employees/Delete/5
@@ -136,30 +126,21 @@ namespace OxfordStreet_online_app.Controllers
             base.Dispose(disposing);
         }
 
-
-        public ActionResult EmployeeUser(int? employeeId = null)
+        //GET: Employees/Create
+        public ActionResult Create()
         {
-            var result = (from e in db.Employees
-                join u in db.Users on e.UserId equals u.UserId
-                where (employeeId == null ? true : e.EmployeeId == employeeId)
-                select new {e,u});
-            
-
-            return View(result.ToList());
+            if (Session["isManager"] != null && (bool)Session["isManager"] == true)
+            {
+                ViewBag.BranchId = new SelectList(db.Branches, "BranchId", "Name");
+                return View();
+            }
+            return RedirectToAction("Index", "Home");
         }
 
-
-        //GET: Employees/Signup
-        public ActionResult Signup()
-        {
-            ViewBag.BranchId = new SelectList(db.Branches, "BranchId", "Name");
-            return View();
-        }
-
-        //POST: Users/Signup
+        //POST: Users/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Signup(string firstName, string lastName, Role role, int monthlySalary, int branchId, string manager,
+        public ActionResult Create(string firstName, string lastName, Role role, int monthlySalary, int branchId, string manager,
             string email, string password, string passwordVerification)
         {
             if (String.IsNullOrEmpty(firstName)
