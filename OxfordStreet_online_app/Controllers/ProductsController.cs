@@ -28,20 +28,16 @@ namespace OxfordStreet_online_app.Controllers
         // GET: Products/Details/5
         public ActionResult Details(int? id)
         {
-            if (Session["isManager"] != null && (bool)Session["isManager"] == true)
+            if (id == null)
             {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                Product product = db.Products.Find(id);
-                if (product == null)
-                {
-                    return HttpNotFound();
-                }
-                return View(product);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            return RedirectToAction("Index", "Home");
+            Product product = db.Products.Find(id);
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+            return View(product);
         }
 
         // GET: Products/Create

@@ -37,11 +37,9 @@
                         <img class="category-product-img" src="@Html.DisplayFor(modelItem => Model.ElementAt(i).ImageUrl)" alt="@Html.DisplayFor(modelItem => Model.ElementAt(i).Name)" />
                         <div class="category-product-details-container">
                             <div class="category-product-name">
-                                <label>Name: </label>
                                 <label>@Html.DisplayFor(modelItem => Model.ElementAt(i).Name)</label>
                             </div>
                             <div class="category-product-price">
-                                <label>Price: </label>
                                 <label> @Html.DisplayFor(modelItem => Model.ElementAt(i).Price) ₪ </label>
                             </div>
                         </div>
@@ -57,11 +55,9 @@
                             <img class="category-product-img" src="@Html.DisplayFor(modelItem => Model.ElementAt(i+1).ImageUrl)" alt="@Html.DisplayFor(modelItem => Model.ElementAt(i+1).Name)" />
                             <div class="category-product-details-container">
                                 <div class="category-product-name">
-                                    <label>Name: </label>
                                     <label>@Html.DisplayFor(modelItem => Model.ElementAt(i + 1).Name)</label>
                                 </div>
                                 <div class="category-product-price">
-                                    <label>Price: </label>
                                     <label> @Html.DisplayFor(modelItem => Model.ElementAt(i + 1).Price) ₪</label>
                                 </div>
                             </div>
@@ -78,11 +74,9 @@
                             <img class="category-product-img" src="@Html.DisplayFor(modelItem => Model.ElementAt(i+2).ImageUrl)" alt="@Html.DisplayFor(modelItem => Model.ElementAt(i+2).Name)" />
                             <div class="category-product-details-container">
                                 <div class="category-product-name">
-                                    <label>Name: </label>
                                     <div> @Html.DisplayFor(modelItem => Model.ElementAt(i + 2).Name)</div>
                                 </div>
                                 <div class="category-product-price">
-                                    <label>Price: </label>
                                     <label>@Html.DisplayFor(modelItem => Model.ElementAt(i + 2).Price) ₪</label>
                                 </div>
                             </div>
