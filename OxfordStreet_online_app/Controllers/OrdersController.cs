@@ -380,5 +380,12 @@ namespace OxfordStreet_online_app.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
+
+        public Object CartItemsProducts()
+        {
+            var queryResult = db.Orders.Join(db.Users,
+                o => o.UserId, u => u.UserId, (o, u) => new { Order = o, User = u }).ToList();
+            return queryResult;
+        }
     }
 }
