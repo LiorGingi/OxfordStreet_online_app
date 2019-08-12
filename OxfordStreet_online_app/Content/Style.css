@@ -23,10 +23,17 @@ video {
     column-rule-style: solid;
     column-rule-width: 1px;
 }
+.product-page-image{
+    height: 75%;
+    width:80%;
+}
+.suggested-product-img{
+    height:25%;
+    width:50%;
+}
 /*------------------------------
 =NAVIGATION
 ------------------------------*/
-
 .navbar-inverse {
     background-color: #565656;
 }

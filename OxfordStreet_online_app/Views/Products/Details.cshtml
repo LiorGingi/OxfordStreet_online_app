@@ -17,7 +17,7 @@
             dataType: "json",
             success: function (json) {
                 $('#img').attr('src', json.imageUrl);
-                $("#price").text(json.price);
+                $("#price").text(json.price +" ₪");
                 $("#name").text(json.name);
                 $("#suggested").show();
             }
@@ -32,20 +32,18 @@
 <div class="row">
     <div class="col-md-3" id="suggested">
         <h3 class="h3">You should also check:</h3>
-        <img  id="img" height="60" width="60" style="max-width: 600px; max-height: 600px;"/>
+        <img  id="img" class="suggested-product-img"/>
         <div class="category-product-name">
-            <label>Name: </label>
             <label id="name"></label>
         </div>
         <div class="category-product-price">
-            <label>Price: </label>
             <label  id="price"></label>
         </div>
 
         </div>
     <div class="col-md-6">
-        <div class="product-page-image">
-            <img src="@Html.DisplayFor(model => model.ImageUrl)" height="600" width="600" style="max-width: 600px; max-height: 600px;">
+        <div   >
+            <img src="@Html.DisplayFor(model => model.ImageUrl)" class="product-page-image" >
         </div>
     </div>
     <div class="col-md-3">
