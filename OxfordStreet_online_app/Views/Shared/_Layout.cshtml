@@ -25,8 +25,7 @@
                     <li class="top-user-section">@Html.ActionLink("Products", "Category", "Products")</li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    @*<li class="glyphicon glyphicon-shopping-cart"> @Html.ActionLink("View Cart", "Details", "CartItems")</>
-                    *@<li> @Html.ActionLink("Branches", "Index", "Branches")</li>
+                    <li> @Html.ActionLink("Branches", "Index", "Branches")</li>
                     @if (Session["userId"] == null)
                     {
                         <li> @Html.ActionLink("Login", "Login", "Users")</li>
@@ -66,7 +65,7 @@
             </section>
             <section class="col-md-4" id="social_links">
                 <h2 class="page-header footer-header">Find us on</h2>
-                <a href="#" class="fa fa-facebook"></a>                                                                 
+                <a href="https://www.facebook.com/Nofars-Accessories-108498187173044" class="fa fa-facebook"></a>                                                                 
             </section>
         </div>
     </footer>

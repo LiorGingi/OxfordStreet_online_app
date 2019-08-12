@@ -14,9 +14,9 @@
 else
 {
 
-    <h2>Shopping Cart</h2>
+    <h2  class="page-header header">Shopping Cart</h2>
 
-    <table class="table">
+    <table class="table-hover table">
         <tr>
             <th>
                 Product ID
@@ -67,14 +67,12 @@ else
         }
     </table>
 
-
-    <p>Total: @ViewBag.Total ₪</p>
-
-    @Html.ActionLink("Delete Cart", "DeleteCart");
-
+    <label>Total: @ViewBag.Total ₪</label>
+    
     <form action="@Url.Action("ClickCheckout", "CartItems")">
+    <button type="button" class="btn submit">@Html.ActionLink("Delete Cart", "DeleteCart")</button>
         <input type="hidden" name="cartTotal" value="@ViewBag.Total" />
-        <input type="submit" value="Go To Checkout" class="submit" />
+        <input type="submit" value="Go To Checkout" class="btn btn-success" />
     </form>
 
 }
