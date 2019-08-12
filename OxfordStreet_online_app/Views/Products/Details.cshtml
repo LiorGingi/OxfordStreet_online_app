@@ -3,13 +3,47 @@
 @{
     ViewBag.Title = "Product Details";
 }
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#suggested").hide();
+        var url = window.location.href.split("/");
+        var productId = url[url.length - 1];
+      
+        $.ajax({
+            type: "POST",
+            url: '/Products/SuggestedProduct' ,
+            data: { id: productId },
+            dataType: "json",
+            success: function (json) {
+                $('#img').attr('src', json.imageUrl);
+                $("#price").text(json.price);
+                $("#name").text(json.name);
+                $("#suggested").show();
+            }
+        });
+    });
+</script>
 
 <div class="product-page-title">
     <h2 class="page-header header">@Html.DisplayFor(model => model.Name)</h2>
 </div>
 
 <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-3" id="suggested">
+        <h3 class="h3">You should also check:</h3>
+        <img  id="img" height="60" width="60" style="max-width: 600px; max-height: 600px;"/>
+        <div class="category-product-name">
+            <label>Name: </label>
+            <label id="name"></label>
+        </div>
+        <div class="category-product-price">
+            <label>Price: </label>
+            <label  id="price"></label>
+        </div>
+
+        </div>
+    <div class="col-md-6">
         <div class="product-page-image">
             <img src="@Html.DisplayFor(model => model.ImageUrl)" height="600" width="600" style="max-width: 600px; max-height: 600px;">
         </div>
@@ -18,11 +52,11 @@
         <div class="product-page-details-container">
             <div class="form-group">
                 <label for="price">Price:</label>
-                <label class="label-primary" id="price">@Html.DisplayFor(model => model.Price) ₪</label>
+                <label id="price">@Html.DisplayFor(model => model.Price) ₪</label>
             </div>
             <div class="form-group">
                 <label for="weatherType">Weather type:</label>
-                <label class="label-primary" id="weatherType">@Html.DisplayFor(model => model.WeatherType)</label>
+                <label id="weatherType">@Html.DisplayFor(model => model.WeatherType)</label>
             </div>
          </div>
 

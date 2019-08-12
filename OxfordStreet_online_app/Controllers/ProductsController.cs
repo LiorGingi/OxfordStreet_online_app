@@ -167,5 +167,55 @@ namespace OxfordStreet_online_app.Controllers
 
             return RedirectToAction("Index");
         }
+
+        public ActionResult DetailsOfSuggestedProduct(int? id)
+        {
+            if (id == null)
+            {
+                return Json(false);
+            }
+            Product product = db.Products.Find(id);
+            if (product == null)
+            {
+                return Json(HttpNotFound());
+            }
+            var jsonReturn = new {
+                imageUrl = product.ImageUrl,
+                name=product.Name,
+                price = product.Price
+            };
+            return Json(jsonReturn);
+        }
+        [HttpPost]
+        public ActionResult SuggestedProduct(int? id)
+        {
+            if (id == null)
+            {
+                return TopSale();
+            }
+            var orders = from op in db.OrderProducts
+                         where op.ProductId == id
+                         select op.OrderId;
+            var products = from op in db.OrderProducts
+                           where orders.Any(o => o == op.OrderId && op.ProductId != id)
+                           select new { productId = op.ProductId, Quantity = op.Quantity };
+            var groupedProducts = from p in products
+                                  group p.Quantity by p.productId into g
+                                  select new { productId = g.Key, quantity = g.ToList().Sum() };
+            var product = groupedProducts.FirstOrDefault(p => p.quantity == groupedProducts.Max(gp => gp.quantity));
+            var a= product==null ? TopSale() : DetailsOfSuggestedProduct(product.productId);
+            return a;
+        }
+        protected ActionResult TopSale()
+        {
+            var groupedProducts = from p in db.OrderProducts
+                                  group p.Quantity by p.ProductId into g
+                                  select new { productId = g.Key, quantity = g.ToList().Sum() };
+            int maxSales = groupedProducts.Max(p => p.quantity);
+            var topSale = from p in groupedProducts
+                          where p.quantity == maxSales
+                          select p.productId;
+            return DetailsOfSuggestedProduct(topSale.FirstOrDefault());
+        }
     }
 }

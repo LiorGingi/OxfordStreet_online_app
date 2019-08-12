@@ -18,6 +18,11 @@ video {
 .header{
     text-align:center;
 }
+.category-row {
+    column-count: 3;
+    column-rule-style: solid;
+    column-rule-width: 1px;
+}
 /*------------------------------
 =NAVIGATION
 ------------------------------*/
