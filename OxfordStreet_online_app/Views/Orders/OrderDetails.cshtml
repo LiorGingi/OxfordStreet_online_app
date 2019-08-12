@@ -5,29 +5,38 @@
 }
 
 @if (ViewBag.Error != null)
-{ 
+{
     <div class="alert-danger">
         Error: @ViewBag.Error
     </div>
 }
-
+<h2 class="page-header header">Order Details</h2>
 
 @if (Model == null)
 {
     <form method="post" action="@Url.Action("OrderDetails", "Orders")">
         @Html.AntiForgeryToken()
-        Email: <input type="text" name="email" value="" /><br />
-        Order ID: <input type="number" name="orderId" value="" /><br />
-        <input type="submit" value="Submit" class="submit" />
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input class="form-control" type="email" name="email" id="email" value="" />
+        </div>
+        <div class="form-group">
+            <label for="orderID">Order ID:</label>
+            <input class="form-control" type="number" name="orderID" id="orderID" value="" />
+        </div>
+        <input type="submit" value="Submit" class="btn btn-default btn-lg btn-block" />
     </form>
+
+
+
 }
 else
 {
-    <h3>Order ID: @Model.OrderId</h3>
-    <h3>Order Status: @Model.Status</h3>
-    <h3>Total Paid: @Model.TotalCost ₪</h3>
+    <h3 class="h3">Order ID: @Model.OrderId</h3>
+    <h3 class="h3">Order Status: @Model.Status</h3>
+    <h3 class="h3">Total Paid: @Model.TotalCost ₪</h3>
 
-    <table class="table">
+    <table class="table table-hover">
         <tr>
             <th>
                 Product ID
@@ -36,7 +45,7 @@ else
                 Quantity
             </th>
         </tr>
-        
+
         @foreach (var item in Model.OrderProducts)
         {
             <tr>
@@ -52,7 +61,7 @@ else
 
     <form method="post" action="@Url.Action("CancelOrder", "Orders")">
         @Html.AntiForgeryToken()
-        <input type="hidden" value="@Model.OrderId" name="orderId"/>
-        <input type="submit" value="Cancel Order" class="submit" />
+        <input class="form-control" type="hidden" value="@Model.OrderId" name="orderId" />
+        <input type="submit" value="Cancel Order" class="btn btn-default btn-lg btn-block" />
     </form>
 }
