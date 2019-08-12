@@ -8,41 +8,63 @@
 
 @if (ViewBag.Error != null)
 {
-    <label>Error: @ViewBag.Error</label>
+    <div class="alert-danger">
+        Error: @ViewBag.Error
+    </div>
 }
 
-<h3>Total Price: @Session["cartTotal"] ₪</h3>
+<h3 class="page-header header">Total Price: @Session["cartTotal"] ₪</h3>
 
 <form method="post" action="@Url.Action("Checkout", "Orders")">
     @Html.AntiForgeryToken()
 
     @if (Model != null)
     {
-        <p>First Name:</p><br />
-        <input type="text" name="firstName" value="@Model.FirstName" readonly="readonly" /><br />
-        <p>Last Name:</p><br />
-        <input type="text" name="lastName" value="@Model.LastName" readonly="readonly" /><br />
-        <p>Email:</p><br />
-        <input type="email" name="email" value="@Model.Email" readonly="readonly" /><br />
-        <p>Phone Number:</p><br />
-        <input type="tel" name="phone" value="@Model.PhoneNumber" readonly="readonly" /><br />
-        <p>Address:</p><br />
-        <input type="text" name="address" value="@Model.Address" readonly="readonly" /><br />
+        <div class="form-group">
+            <label for="firstName">First Name:</label>
+            <input class="form-control" type="text" name="firstName" id="firstName" value="@Model.FirstName" readonly="readonly" />
+        </div>
+        <div class="form-group">
+            <label for="lastName">Last Name:</label>
+            <input class="form-control" type="text" name="lastName" id="lastName" value="@Model.LastName" readonly="readonly" />
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input class="form-control" type="email" name="email" id="email" value="@Model.Email" readonly="readonly" />
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone Number:</label>
+            <input class="form-control" type="tel" name="phone" id="phone" value="@Model.PhoneNumber" readonly="readonly" />
+        </div>
+        <div class="form-group">
+            <label for="address">Address:</label>
+            <input class="form-control" type="text" name="address" id="address" value="@Model.Address" readonly="readonly" />
+        </div>
     }
 
     else
     {
-        <p>First Name:</p><br />
-        <input type="text" name="firstName" value="" /><br />
-        <p>Last Name:</p><br />
-        <input type="text" name="lastName" value="" /><br />
-        <p>Email:</p><br />
-        <input type="email" name="email" value="" /><br />
-        <p>Phone Number:</p><br />
-        <input type="tel" name="phone" value="" /><br />
-        <p>Address:</p><br />
-        <input type="text" name="address" value="" /><br />
+        <div class="form-group">
+            <label for="firstName">First Name:</label>
+            <input class="form-control" type="text" name="firstName" id="firstName" value="" />
+        </div>
+        <div class="form-group">
+            <label for="lastName">Last Name:</label>
+            <input class="form-control" type="text" name="lastName" id="lastName" value="" />
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input class="form-control" type="email" name="email" id="email" value="" />
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone Number:</label>
+            <input class="form-control" type="tel" name="phone" id="phone" value=""/>
+        </div>
+        <div class="form-group">
+            <label for="address">Address:</label>
+            <input class="form-control" type="text" name="address" id="address" value="" />
+        </div>
     }
 
-    <input type="submit" value="Submit" class="submit" />
+    <input type="submit" value="Submit" class="btn btn-default btn-lg btn-block" />
 </form>
