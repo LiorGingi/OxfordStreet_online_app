@@ -1,13 +1,57 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<h2 class="page-header header">Welcome to Nofar's Accessories</h2>
 
-
-<div class="row">
-    <div class="col-md-12">
+<section class="row">
+    <div class="col-md-6">
+        <div id="suggested">
+            <h4 class="h4">Most Suggested Product:</h4>
+            <img id="img" class="suggested-product-img" />
+            <div class="category-product-name">
+                <label id="name"></label>
+            </div>
+            <div class="category-product-price">
+                <label id="price"></label>
+            </div>
+        </div>
+        <h4 class="h4">Temperature Outside:</h4>
+        <p id="temperature" class="col-md-6"></p>
+    </div>
+    <div class="col-md-6">
         <video controls>
             <source src="~/Videos/SS18V.mp4" type="video/mp4">
-            Your browser does not support the video tag.
         </video>
     </div>
-</div>
+</section>
+
+<script>
+    $.ajax({
+        type: "GET",
+        url: 'http://dataservice.accuweather.com/currentconditions/v1/215854',
+        data: { apikey: 'Ye3oNF29NPxfeh86lf78LZexsWtOnSVA' },
+        success: function (json) {
+            var temp = JSON.stringify(json[0].Temperature.Metric.Value);
+            $('#temperature').html(temp);
+        }
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#suggested").hide();
+
+        $.ajax({
+            type: "POST",
+            url: '/Products/TopSale',
+            data: {},
+            dataType: "json",
+            success: function (json) {
+                $('#img').attr('src', json.imageUrl);
+                $("#price").text(json.price + " ₪");
+                $("#name").text(json.name);
+                $("#suggested").show();
+            }
+        });
+    });
+</script>

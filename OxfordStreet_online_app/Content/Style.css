@@ -31,6 +31,9 @@ video {
     height:25%;
     width:50%;
 }
+.search-btn{
+    text-align:center;
+}
 /*------------------------------
 =NAVIGATION
 ------------------------------*/
@@ -50,17 +53,21 @@ video {
     color: #9d9d9d;
     padding-top: 5px;
 }
+
 /*------------------------------
-=SIDEBAR
+=ADMIN
 ------------------------------*/
+.admin-main-section {
+    column-count: 3;
+    column-rule-style: solid;
+    column-rule-width: 5px;
+}
 
 /*------------------------------
 =FOOTER
 ------------------------------*/
-
 footer {
     background-color: #c2c6cd;
-
 }
 .footer-header {
     color: white;

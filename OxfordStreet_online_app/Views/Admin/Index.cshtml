@@ -3,13 +3,32 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Admin Panel</h2>
+<h2 class="page-header header">Admin Panel</h2>
+<div class="admin-main-section">
 
-@Html.ActionLink("Branches", "Index", "Branches")
-@Html.ActionLink("Employees", "Index", "Employees")
-@Html.ActionLink("Orders", "Index", "Orders")
-@Html.ActionLink("Products", "Index", "Products")
-@Html.ActionLink("Suppliers", "Index", "Suppliers")
-@Html.ActionLink("Users", "Index", "Users")
-@Html.ActionLink("Monthly Grossing", "MonthlyGrossing", "Admin")
-@Html.ActionLink("Sales Per Product", "SalesPerProduct", "Admin")
+    <section class="accounts">
+        <div class="btn-group-vertical">
+            <header class="modal-header"> Accounts </header>
+            <button class="btn btn-default">@Html.ActionLink("Employees", "Index", "Employees")</button>
+            <button class="btn btn-default">@Html.ActionLink("Users", "Index", "Users")</button>
+        </div>
+    </section>
+
+    <div class="logistic">
+        <div class="btn-group-vertical">
+            <header class="modal-header"> Logistic </header>
+            <button class="btn btn-default" id="branches">@Html.ActionLink("Branches", "Index", "Branches")</button>
+            <button class="btn btn-default">@Html.ActionLink("Orders", "Index", "Orders")</button>
+            <button class="btn btn-default">@Html.ActionLink("Products", "Index", "Products")</button>
+            <button class="btn btn-default">@Html.ActionLink("Suppliers", "Index", "Suppliers")</button>
+        </div>
+    </div>
+
+    <div class="sales ">
+        <div class="btn-group-vertical">
+            <header class="modal-header"> Sales information </header>
+            <button class="btn btn-default">@Html.ActionLink("Monthly Grossing", "MonthlyGrossing", "Admin")</button>
+            <button class="btn btn-default">@Html.ActionLink("Sales Per Product", "SalesPerProduct", "Admin")</button>
+        </div>
+    </div>
+</div>

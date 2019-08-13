@@ -222,7 +222,7 @@ namespace OxfordStreet_online_app.Controllers
             var a= product==null ? TopSale() : DetailsOfSuggestedProduct(product.productId);
             return a;
         }
-        protected ActionResult TopSale()
+        public ActionResult TopSale()
         {
             var groupedProducts = from p in db.OrderProducts
                                   group p.Quantity by p.ProductId into g
