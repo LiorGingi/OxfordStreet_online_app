@@ -31,6 +31,9 @@ video {
     height:25%;
     width:50%;
 }
+.search-btn{
+    text-align:center;
+}
 /*------------------------------
 =NAVIGATION
 ------------------------------*/
