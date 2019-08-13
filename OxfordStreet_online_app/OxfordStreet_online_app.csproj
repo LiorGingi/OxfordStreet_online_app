@@ -265,7 +265,6 @@
     <Content Include="Views\Orders\CancelOrder.cshtml" />
     <Content Include="Views\Admin\MonthlyGrossing.cshtml" />
     <Content Include="Views\Admin\SalesPerProduct.cshtml" />
-    <Content Include="Views\Admin\ApiTest.cshtml" />
     <Content Include="Views\Products\CreationConfirmation.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
